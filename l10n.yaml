@@ -1,0 +1,3 @@
+arb-dir: lib/l10n                         # مكان تواجد الملفات في التطبيق
+template-arb-file: app_en.arb                        # ايش هو الملف النموذجي اللي راح نعتمده
+output-localization-file: app_localizations.dart

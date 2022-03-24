@@ -1,6 +1,6 @@
 class UserRegisterationModel {
-  late String phone ;
-  late String typeUser ;
+  late var phone ;
+  late var typeUser ;
 
   UserRegisterationModel(this.phone, this.typeUser);
 

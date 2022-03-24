@@ -1,4 +1,5 @@
 
+import 'package:communication/controller/fb_store_controller.dart';
 import 'package:communication/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,33 +12,17 @@ import '../nav_user_screens/main_screen.dart';
 import '../translator_screens/nav_translator_screens/main_translator_screen.dart';
 
 class AddCodeScreen extends StatefulWidget {
-   AddCodeScreen({Key? key,required verificationId , required UserRegisterationModel userRegisterationModel}) : super(key: key);
+   AddCodeScreen({Key? key,required this.verificationId , required this.userRegisterationModel,required this.signOrLogin}) : super(key: key);
 
   String verificationId ='';
-  UserRegisterationModel userRegisterationModel = UserRegisterationModel('', '');
+  UserRegisterationModel userRegisterationModel;
+  bool signOrLogin ;
 
   @override
   _AddCodeScreenState createState() => _AddCodeScreenState();
 }
 
 class _AddCodeScreenState extends State<AddCodeScreen> {
-
-  late TextEditingController codeTextEditingController;
-  bool typeUser = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    codeTextEditingController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    codeTextEditingController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -221,16 +206,35 @@ class _AddCodeScreenState extends State<AddCodeScreen> {
     );
   }
 
+  late TextEditingController codeTextEditingController;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    codeTextEditingController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    codeTextEditingController.dispose();
+    super.dispose();
+  }
+
   Future<void> performSendCode() async {
-    if (checkData()) {
+    if (await checkData()) {
        await sendCode();
     }
   }
 
-  bool checkData() {
+   Future <bool> checkData() async{
     if (codeTextEditingController.text.isNotEmpty) {
+      if(widget.signOrLogin){
+        await  FbStoreController().addUser(userRegisterationModel: widget.userRegisterationModel);
+      }
+
       // showSnackBar(context : context , message : 'Success', error : true);
       return true;
     }
@@ -240,8 +244,9 @@ class _AddCodeScreenState extends State<AddCodeScreen> {
 
 //
   Future<void> sendCode() async {
-    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(verificationId: widget.verificationId, smsCode: codeTextEditingController.text);
-    _firebaseAuth.signInWithCredential(phoneAuthCredential);
+    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(verificationId: widget.verificationId, smsCode: codeTextEditingController.text.toString());
+    await _firebaseAuth.signInWithCredential(phoneAuthCredential);
+
     if(widget.userRegisterationModel.typeUser=='user')
     {
       Navigator.pushAndRemoveUntil(

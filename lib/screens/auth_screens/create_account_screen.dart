@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:communication/controller/fb_store_controller.dart';
 import 'package:communication/model/user_model.dart';
 import 'package:communication/screens/auth_screens/add_code_screen.dart';
@@ -18,29 +19,6 @@ class CreateAccountScreen extends StatefulWidget {
 }
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
-
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  late TextEditingController phoneEditingController;
-  String verificationID = '';
-  String userType = 'user';
-
-  // late String phone ;
-  // int typeUser =0;
-  // late CountryCode countryCodeG;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    phoneEditingController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    phoneEditingController.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -352,6 +330,26 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     );
   }
 
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  late TextEditingController phoneEditingController;
+  String verificationID = '';
+  String userType = 'user';
+  bool sign = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    phoneEditingController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    phoneEditingController.dispose();
+  }
+
   Future<void> performCreateAccount() async {
     print('Begin Perform');
     if (await checkData()) {
@@ -401,9 +399,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (context) =>
                     AddCodeScreen(
+                      signOrLogin: sign,
                       verificationId: verificationID,
                       userRegisterationModel: userRegisterationModel,),),);
               print('Finish Register');
+              // fbStoreController.addUser(userRegisterationModel: userRegisterationModel);
             },
             codeAutoRetrievalTimeout: (String verificationId) {});
       } on FirebaseAuthException catch (e) {

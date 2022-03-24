@@ -65,8 +65,8 @@ class MyApp extends StatelessWidget {
           MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,     //04
             supportedLocales: AppLocalizations.supportedLocales,
-            locale: Locale('en'),
-            initialRoute: '/create_account_screen',
+            locale: Locale('ar'),
+            initialRoute: '/login_screen',
             routes: {
               // '/all_widget' : (context) => AllWidget(),
               '/launch_screen' : (context) => LaunchScreen(),
@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
               '/terms_conditions_screen' : (context) => TermsConditionsScreen(),
               '/help_faqs_screen' : (context) => HelpFaqsScreen(),
               '/add_request_screen' : (context) => AddRequestScreen(),
-              // '/login_screen' : (context) => LoginScreen(),
+              '/login_screen' : (context) => LoginScreen(),
               '/recovery_account_screen' : (context) => RecoveryAccountScreen(),
               // '/add_code_screen' : (context) => AddCodeScreen(),
               '/create_account_screen' : (context) => CreateAccountScreen(),

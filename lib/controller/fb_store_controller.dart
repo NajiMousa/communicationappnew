@@ -27,7 +27,7 @@ class FbStoreController {
   Future<void> addUser({required UserRegisterationModel userRegisterationModel}) async {
     await firebaseFirestore.collection("Users").add({
       "phone": userRegisterationModel.phone,
-      "userType": userRegisterationModel.typeUser,
+      "userType": userRegisterationModel.userType,
     });
   }
   Future<List<UserRegisterationModel>> getUser() async {

@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../controller/fb_auth_controller.dart';
+import '../../helpers/helpers.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
@@ -18,8 +19,8 @@ class CreateAccountScreen extends StatefulWidget {
   _CreateAccountScreenState createState() => _CreateAccountScreenState();
 }
 
-class _CreateAccountScreenState extends State<CreateAccountScreen> {
-
+class _CreateAccountScreenState extends State<CreateAccountScreen>
+    with Helpers {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +73,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               ),
               Stack(
                 children: [
+                  loading ? Center(
+                    child: CircularProgressIndicator(),
+                  ):SizedBox(height: 1.h,),
                   Container(
                     padding: EdgeInsets.only(
                         top: 40.h, right: 77.w, left: 77.w, bottom: 58.h),
@@ -92,8 +96,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     alignment: Alignment.center,
                     margin: EdgeInsets.only(
                         top: 222.h, right: 30.w, left: 30.w, bottom: 40.h),
-                    padding: EdgeInsets.only(
-                        top: 15.h, right: 20.w, left: 20.w),
+                    padding:
+                        EdgeInsets.only(top: 15.h, right: 20.w, left: 20.w),
                     width: double.infinity,
                     height: 460.h,
                     decoration: BoxDecoration(
@@ -149,7 +153,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 ),
                               ),
                               child: CountryCodePicker(
-                                // onChanged: _onCountryChange,
+                                onChanged: _onCountryChange,
                                 textStyle: TextStyle(
                                   color: HexColor('#004AAD'),
                                   fontSize: 14.sp,
@@ -164,12 +168,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 ),
                               ),
                             ),
-
                             SizedBox(
                               width: 10.w,
                             ),
                             Expanded(
                               child: TextField(
+                                keyboardType: TextInputType.phone,
                                 controller: phoneEditingController,
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
@@ -201,7 +205,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 30.h,),
+                        SizedBox(
+                          height: 30.h,
+                        ),
                         Text(
                           'نوع الحساب',
                           style: TextStyle(
@@ -209,19 +215,23 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             color: HexColor('#004AAD'),
                           ),
                         ),
-                        SizedBox(height: 12.h,),
+                        SizedBox(
+                          height: 12.h,
+                        ),
                         Row(
                           children: [
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 minimumSize: Size(125.w, 48.h),
-                                side: userType == 'translate' ? BorderSide(
-                                  color: HexColor('#004AAD'),
-                                  width: 2,
-                                ) :
-                                BorderSide(),
-                                primary: userType == 'user' ? HexColor(
-                                    '#004AAD') : HexColor('#FAFBFD'),
+                                side: userType == 'translate'
+                                    ? BorderSide(
+                                        color: HexColor('#004AAD'),
+                                        width: 2,
+                                      )
+                                    : BorderSide(),
+                                primary: userType == 'user'
+                                    ? HexColor('#004AAD')
+                                    : HexColor('#FAFBFD'),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
@@ -235,7 +245,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 'مستخدم',
                                 style: TextStyle(
                                   fontSize: 14.sp,
-                                  color: Colors.white,
+                                  color: userType == 'user'
+                                      ? Colors.white
+                                      : HexColor('#004AAD'),
                                 ),
                               ),
                             ),
@@ -243,14 +255,16 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
-                                side: userType == 'user' ? BorderSide(
-                                  color: HexColor('#004AAD'),
-                                  width: 2,
-                                ) :
-                                BorderSide(),
+                                side: userType == 'user'
+                                    ? BorderSide(
+                                        color: HexColor('#004AAD'),
+                                        width: 2,
+                                      )
+                                    : BorderSide(),
                                 minimumSize: Size(125.w, 48.h),
-                                primary: userType == 'translate' ? HexColor(
-                                    '#004AAD') : HexColor('#FAFBFD'),
+                                primary: userType == 'translate'
+                                    ? HexColor('#004AAD')
+                                    : HexColor('#FAFBFD'),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
@@ -264,7 +278,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 'مترجم',
                                 style: TextStyle(
                                   fontSize: 14.sp,
-                                  color: HexColor('#004AAD'),
+                                  color: userType == 'user'
+                                      ? HexColor('#004AAD')
+                                      : Colors.white,
                                 ),
                               ),
                             ),
@@ -280,7 +296,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             color: HexColor('#004AAD'),
                           ),
                         ),
-                        SizedBox(height: 30.h,),
+                        SizedBox(
+                          height: 30.h,
+                        ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             minimumSize: Size(double.infinity, 48.h),
@@ -302,7 +320,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 14.h,),
+                        SizedBox(
+                          height: 14.h,
+                        ),
                         InkWell(
                           onTap: () {
                             Navigator.pop(context);
@@ -335,6 +355,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   String verificationID = '';
   String userType = 'user';
   bool sign = true;
+  // late CountryCode countryCodeG;
+  late String countryCodeG;
+  bool loading = false;
 
   @override
   void initState() {
@@ -349,7 +372,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     super.dispose();
     phoneEditingController.dispose();
   }
-
   Future<void> performCreateAccount() async {
     print('Begin Perform');
     if (await checkData()) {
@@ -357,66 +379,79 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       await register();
     }
   }
-
   Future<bool> checkData() async {
     if (phoneEditingController.text.isNotEmpty) {
-      // showSnackBar(context : context , message : 'Success', error : true);
+      setState(() {
+        loading = true;
+      });
       print('Begin CheckData');
-      List<UserRegisterationModel> userList = await FbStoreController()
-          .getUser();
+      List<UserRegisterationModel> userList =
+          await FbStoreController().getUser();
       for (int i = 0; i < userList.length; i++) {
-        if (userList[i].phone == phoneEditingController.text.toString()) {
-          userType = userList[i].typeUser;
-          // showSnackBar(
-          //   context: context,
-          //   message: 'الرقم موجود مسبقا قم بتسجيل  الدخول',
-          //   error: true,
-          // );
+        if (userList[i].phone == countryCodeG.toString()+phoneEditingController.text) {
+          userType = userList[i].userType;
+          showSnackBar(
+            context: context,
+            message: 'الرقم موجود مسبقا قم بتسجيل  الدخول',
+            error: true,
+          );
+          setState(() {
+            loading = true;
+          });
+          return false;
         }
       }
       print('CheckData');
+      showSnackBar(
+          context: context,
+          message: 'ارسلنا لك رسالة برمز التحقق',
+          error: false);
       return true;
     }
-    // showSnackBar(context : context , message : 'Enter Data', error : true);
+    showSnackBar(
+        context: context, message: 'قم باضافة البيانات المطلوبة', error: true);
     return false;
   }
-
   Future<void> register() async {
-      try {
-        print('Begin Register');
-        _firebaseAuth.verifyPhoneNumber(
-            phoneNumber: phoneEditingController.text,
-            verificationCompleted: (AuthCredential credential) async {
-              await _firebaseAuth.signInWithCredential(credential);
-            },
-            verificationFailed: (FirebaseAuthException exception) {
-              print(exception.message);
-            },
-            codeSent: (String verificationId, int? forceResendingToken) {
-              verificationID = verificationId;
-              UserRegisterationModel userRegisterationModel = UserRegisterationModel(
-                  phoneEditingController.text, userType);
-              Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (context) =>
-                    AddCodeScreen(
-                      signOrLogin: sign,
-                      verificationId: verificationID,
-                      userRegisterationModel: userRegisterationModel,),),);
-              print('Finish Register');
-              // fbStoreController.addUser(userRegisterationModel: userRegisterationModel);
-            },
-            codeAutoRetrievalTimeout: (String verificationId) {});
-      } on FirebaseAuthException catch (e) {
-        // _controlAuthException(context: context, e: e);
-      } catch (e) {
-        print(e);
-      }
-    // void _onCountryChange(CountryCode countryCode) {
-    //   setState(() {
-    //     countryCodeG = countryCode;
-    //   });
-    //   print("New Countr selected: " + countryCode.toString());
-    // }
+    try {
+      print('Begin Register');
+      _firebaseAuth.verifyPhoneNumber(
+          phoneNumber: countryCodeG.toString()+phoneEditingController.text,
+          verificationCompleted: (AuthCredential credential) async {
+            print(countryCodeG.toString()+phoneEditingController.text);
+            await _firebaseAuth.signInWithCredential(credential);
+          },
+          verificationFailed: (FirebaseAuthException exception) {
+            print(exception.message);
+          },
+          codeSent: (String verificationId, int? forceResendingToken) {
+            verificationID = verificationId;
+            UserRegisterationModel userRegisterationModel =
+                UserRegisterationModel(countryCodeG.toString()+phoneEditingController.text, userType);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddCodeScreen(
+                  signOrLogin: sign,
+                  verificationId: verificationID,
+                  userRegisterationModel: userRegisterationModel,
+                ),
+              ),
+            );
+            print('Finish Register');
+            // fbStoreController.addUser(userRegisterationModel: userRegisterationModel);
+          },
+          codeAutoRetrievalTimeout: (String verificationId) {});
+    } on FirebaseAuthException catch (e) {
+      // _controlAuthException(context: context, e: e);
+    } catch (e) {
+      print(e);
+    }
   }
-
+  void _onCountryChange(CountryCode countryCode) {
+    setState(() {
+      countryCodeG = countryCode.toString();
+    });
+    print("New country selected: " + countryCode.toString());
+  }
 }

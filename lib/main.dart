@@ -1,4 +1,5 @@
 
+import 'package:communication/pref/shread_pref.dart';
 import 'package:communication/screens/auth_screens/add_code_screen.dart';
 import 'package:communication/screens/auth_screens/all_widget.dart';
 import 'package:communication/screens/auth_screens/create_account_screen.dart';
@@ -9,6 +10,7 @@ import 'package:communication/screens/nav_user_screens/home_screen.dart';
 import 'package:communication/screens/nav_user_screens/job_screen.dart';
 import 'package:communication/screens/nav_user_screens/learn_screen.dart';
 import 'package:communication/screens/nav_user_screens/main_screen.dart';
+import 'package:communication/screens/nav_user_screens/map_screen.dart';
 import 'package:communication/screens/nav_user_screens/request%20_screen.dart';
 import 'package:communication/screens/nav_user_screens/settings%20_screen.dart';
 import 'package:communication/screens/translator_screens/blog_info_screen.dart';
@@ -49,6 +51,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await SharedPrefController().initSharedPref();
   runApp(const MyApp());
 }
 
@@ -66,7 +69,7 @@ class MyApp extends StatelessWidget {
             localizationsDelegates: AppLocalizations.localizationsDelegates,     //04
             supportedLocales: AppLocalizations.supportedLocales,
             locale: Locale('ar'),
-            initialRoute: '/login_screen',
+            initialRoute: '/launch_screen',
             routes: {
               // '/all_widget' : (context) => AllWidget(),
               '/launch_screen' : (context) => LaunchScreen(),
@@ -108,6 +111,7 @@ class MyApp extends StatelessWidget {
               '/onboarding_third_screen' : (context) => OnBoardingThirdScreen(),
               '/main_screen' : (context) => MainScreen(),
               '/main_translator_screen' : (context) => MainTranslatorScreen(),
+              '/map_screen' : (context) => MapScreen(),
             },
             //... other code
             builder: (context, widget) {

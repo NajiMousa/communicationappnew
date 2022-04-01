@@ -1,11 +1,11 @@
 class UserRegisterationModel {
   late var phone ;
-  late var typeUser ;
+  late var userType ;
 
-  UserRegisterationModel(this.phone, this.typeUser);
+  UserRegisterationModel(this.phone, this.userType);
 
   UserRegisterationModel.fromJson(Map<dynamic, dynamic> documentMap) {
     phone = documentMap['phone'];
-    typeUser = documentMap['typeUser'];
+    userType = documentMap['userType'];
   }
 }

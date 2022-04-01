@@ -1,4 +1,3 @@
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +7,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../controller/fb_auth_controller.dart';
 import '../../controller/fb_store_controller.dart';
+import '../../helpers/helpers.dart';
 import '../../model/user_model.dart';
 import 'add_code_screen.dart';
 
@@ -18,9 +18,7 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-
-
+class _LoginScreenState extends State<LoginScreen> with Helpers {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               child: CountryCodePicker(
-                                // onChanged: _onCountryChange,
+                                onChanged: _onCountryChange,
                                 textStyle: TextStyle(
                                   color: HexColor('#004AAD'),
                                   fontSize: 14.sp,
@@ -160,7 +158,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             Expanded(
                               child: TextField(
-                                controller: phoneTextEditingController,
+                                keyboardType: TextInputType.phone,
+                                controller: phoneEditingController,
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.call,
@@ -203,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           onPressed: () {
-                            performLogin();
+                            performLogIn();
                           },
                           child: Text(
                             'تسجيل الدخول',
@@ -244,112 +243,114 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // void _onCountryChange(CountryCode countryCode) {
-  //   print("New Country selected: " + countryCode.toString());
-  //   setState(() {
-  //     countryCodeG = countryCode;
-  //   });
-  // }
-
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  late TextEditingController phoneEditingController;
   String verificationID = '';
-  late TextEditingController phoneTextEditingController;
-  late CountryCode countryCodeG;
-  String typeUser = 'user';
-  bool login = false;
+  String userType = 'user';
+  bool login = true;
+  late String countryCodeG;
+  bool loading = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    phoneTextEditingController = TextEditingController();
+    phoneEditingController = TextEditingController();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    phoneTextEditingController.dispose();
     super.dispose();
+    phoneEditingController.dispose();
   }
 
-  Future<void> performLogin() async {
-    print('performLogin');
-    if ( await checkData()) {
+  Future<void> performLogIn() async {
+    print('Begin Perform');
+    if (await checkData()) {
+      print('perform create account');
       await logIn();
     }
   }
 
-  Future<bool> checkData() async{
-    print('checkData');
-    if (phoneTextEditingController.text.isNotEmpty ) {
-      // setState(() {
-      //   loading =true;
-      // });
-      print('yes');
-      List<UserRegisterationModel> list = await FbStoreController().getUser();
-      print('no');
-      for(int i=0;i<list.length;i++)
-      {
-        print('For');
-        if(list[i].phone == phoneTextEditingController.text.toString())
-        {
-          print('if');
-          typeUser=list[i].typeUser;
-          // showSnackBar(
-          //   context: context,
-          //   message: 'هذا الرقم مستخدم قم بتسجيل الدخول  ',
-          //   error: true,
-          // );
-          // setState(() {
-          //   loading =false;
-          // });
+  Future<bool> checkData() async {
+    if (phoneEditingController.text.isNotEmpty) {
+      setState(() {
+        loading = true;
+      });
+      print('Begin CheckData');
+      List<UserRegisterationModel> userList =
+          await FbStoreController().getUser();
+      for (int i = 0; i < userList.length; i++) {
+        if (userList[i].phone ==
+            countryCodeG.toString() + phoneEditingController.text) {
+          print(countryCodeG.toString() + phoneEditingController.text);
+          userType = userList[i].userType;
+          showSnackBar(
+            context: context,
+            message: 'ارسلنا لك رسالة برمز التحقق',
+            error: false,
+          );
+          setState(() {
+            loading = true;
+          });
           return false;
         }
       }
-      return true;
-    }
-    else {
-      // showSnackBar(
-      //   context: context,
-      //   message: 'Enter Required Data!',
-      //   error: true,
-      // );
+      print('CheckData');
+      showSnackBar(
+          context: context,
+          message: 'ليس لديك حساب قم بانشاء حساب جديد ',
+          error: true);
       return false;
     }
+    showSnackBar(
+        context: context, message: 'قم باضافة البيانات المطلوبة', error: true);
+    return false;
   }
 
-//
   Future<void> logIn() async {
-    print('Begin login');
     try {
+      print('Begin logIn');
       _firebaseAuth.verifyPhoneNumber(
-          phoneNumber: phoneTextEditingController.text,
-          verificationCompleted: (PhoneAuthCredential credential) async {
-            await _firebaseAuth.signInWithCredential(credential).then((value) {
-              print("You are logged in successfully");
-            });
+          phoneNumber: countryCodeG.toString() + phoneEditingController.text,
+          verificationCompleted: (AuthCredential credential) async {
+            print(countryCodeG.toString() + phoneEditingController.text);
+            await _firebaseAuth.signInWithCredential(credential);
           },
           verificationFailed: (FirebaseAuthException exception) {
             print(exception.message);
           },
           codeSent: (String verificationId, int? forceResendingToken) {
             verificationID = verificationId;
-            UserRegisterationModel userRegisterationModel = UserRegisterationModel(
-                phoneTextEditingController.text, typeUser);
-            Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (context) =>
-                  AddCodeScreen(
-                    signOrLogin: login,
-                    verificationId: verificationID,
-                    userRegisterationModel: userRegisterationModel,),),);
-            print('Finish login');
+            UserRegisterationModel userRegisterationModel =
+                UserRegisterationModel(
+                    countryCodeG.toString() + phoneEditingController.text,
+                    userType);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddCodeScreen(
+                  signOrLogin: login,
+                  verificationId: verificationID,
+                  userRegisterationModel: userRegisterationModel,
+                ),
+              ),
+            );
+            print('Finish logIn');
           },
-          codeAutoRetrievalTimeout: (String verificationId) {}
-      );
+          codeAutoRetrievalTimeout: (String verificationId) {});
     } on FirebaseAuthException catch (e) {
       // _controlAuthException(context: context, e: e);
     } catch (e) {
       print(e);
     }
+  }
+
+  void _onCountryChange(CountryCode countryCode) {
+    setState(() {
+      countryCodeG = countryCode.toString();
+    });
+    print("New country selected: " + countryCode.toString());
   }
 }

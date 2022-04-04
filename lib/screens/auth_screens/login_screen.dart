@@ -8,7 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import '../../controller/fb_auth_controller.dart';
 import '../../controller/fb_store_controller.dart';
 import '../../helpers/helpers.dart';
-import '../../model/user_model.dart';
+import '../../model/user_registeration_model.dart';
 import 'add_code_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -247,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
   late TextEditingController phoneEditingController;
   String verificationID = '';
   String userType = 'user';
-  bool login = true;
+  bool login = false;
   late String countryCodeG;
   bool loading = false;
 
@@ -268,7 +268,7 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
   Future<void> performLogIn() async {
     print('Begin Perform');
     if (await checkData()) {
-      print('perform create account');
+      print('perform log in');
       await logIn();
     }
   }
@@ -291,10 +291,10 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
             message: 'ارسلنا لك رسالة برمز التحقق',
             error: false,
           );
-          setState(() {
-            loading = true;
-          });
-          return false;
+          // setState(() {
+          //   loading = true;
+          // });
+          return true;
         }
       }
       print('CheckData');
@@ -302,7 +302,6 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
           context: context,
           message: 'ليس لديك حساب قم بانشاء حساب جديد ',
           error: true);
-      return false;
     }
     showSnackBar(
         context: context, message: 'قم باضافة البيانات المطلوبة', error: true);

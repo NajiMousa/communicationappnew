@@ -1,5 +1,5 @@
 import 'package:communication/controller/fb_store_controller.dart';
-import 'package:communication/model/user_model.dart';
+import 'package:communication/model/user_registeration_model.dart';
 import 'package:communication/pref/shread_pref.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -279,10 +279,10 @@ class _AddCodeScreenState extends State<AddCodeScreen> with Helpers {
               typeUser: widget.userRegisterationModel.userType);
         }
         print('if user');
-        if (widget.signOrLogin) {
-          FbStoreController()
-              .addUser(userRegisterationModel: widget.userRegisterationModel);
-        }
+        // if (widget.signOrLogin) {
+        //   FbStoreController()
+        //       .addUser(userRegisterationModel: widget.userRegisterationModel);
+        // }
         print('02');
         if (widget.userRegisterationModel.userType == 'user') {
           print('user');

@@ -87,23 +87,26 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           SizedBox(
                             height: 14.h,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.edit,
-                                color: HexColor('#004AAD'),
-                                size: 16.h,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text(
-                                'تعديل الملف الشخصي',
-                                style: TextStyle(
-                                    fontSize: 8.sp, color: Colors.white),
-                              ),
-                            ],
+                          InkWell(
+                            onTap: () => Navigator.pushNamed(context, '/edit_profile_user_screen'),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.edit,
+                                  color: HexColor('#004AAD'),
+                                  size: 16.h,
+                                ),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                Text(
+                                  'تعديل الملف الشخصي',
+                                  style: TextStyle(
+                                      fontSize: 8.sp, color: Colors.white),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:communication/controller/fb_store_controller.dart';
-import 'package:communication/model/user_model.dart';
+import 'package:communication/model/user_registeration_model.dart';
 import 'package:communication/screens/auth_screens/add_code_screen.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';

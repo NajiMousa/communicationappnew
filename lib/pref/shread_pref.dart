@@ -2,7 +2,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum prefKey {
-  loggedIn , phone , langnge , typeUser
+  loggedIn , phone , langnge , typeUser ,firstTimeAddData
 }
 class SharedPrefController{
 
@@ -25,6 +25,7 @@ class SharedPrefController{
   Future<void> saveData({required String phone,required String typeUser }) async{
     print('Pref save Data');
     await _sharedPreferences.setBool(prefKey.loggedIn.toString(), true);
+    await _sharedPreferences.setBool(prefKey.firstTimeAddData.toString(), true);
     print('Yes');
     print(prefKey.loggedIn.toString());
     await _sharedPreferences.setString(prefKey.phone.toString(), phone);
@@ -36,6 +37,8 @@ class SharedPrefController{
   }
 
   bool get loggedIn => _sharedPreferences.getBool(prefKey.loggedIn.toString()) ?? false ;
+
+  bool get firstTimeAddData => _sharedPreferences.getBool(prefKey.loggedIn.toString()) ?? false ;
 
   String get phone => _sharedPreferences.getString(prefKey.phone.toString()) ?? 'noPhone' ;
 

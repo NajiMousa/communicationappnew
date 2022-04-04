@@ -124,6 +124,7 @@ class _MainScreenState extends State<MainScreen> {
                       ? const JobScreen()
                       : const SettingsScreen(),
       floatingActionButton: FloatingActionButton(
+
         backgroundColor: HexColor('#004AAD'),
         onPressed: () => Navigator.pushNamed(context, '/map_screen'),
         child: Icon(Icons.my_location,color: Colors.white,),

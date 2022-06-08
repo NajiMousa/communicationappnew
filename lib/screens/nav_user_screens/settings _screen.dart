@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../pref/shread_pref.dart';
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
@@ -317,33 +319,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SizedBox(
               height: 16.h,
             ),
-            Container(
-              alignment: AlignmentDirectional.center,
-              width: double.infinity,
-              height: 45.h,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: HexColor('#004AAD'),
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15),
-                ),
-              ),
-              child: ListTile(
-                visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                leading: Icon(
-                  Icons.logout,
-                  color: HexColor('#004AAD'),
-                ),
-                title: Text(
-                  'تسجيل الخروج',
-                  style: TextStyle(
-                    fontSize: 12.sp,
+            InkWell(
+              onTap: () async {
+                print('logOut');
+                await SharedPrefController().clear();
+                Navigator.pushReplacementNamed(context, '/login_screen');
+              },
+              child: Container(
+                alignment: AlignmentDirectional.center,
+                width: double.infinity,
+                height: 45.h,
+                decoration: BoxDecoration(
+                  border: Border.all(
                     color: HexColor('#004AAD'),
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15),
+                  ),
+                ),
+                child: ListTile(
+                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                  leading: Icon(
+                    Icons.logout,
+                    color: HexColor('#004AAD'),
+                  ),
+                  title: Text(
+                    'تسجيل الخروج',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: HexColor('#004AAD'),
+                    ),
                   ),
                 ),
               ),
             ),
+
           ],
         ),
       ),

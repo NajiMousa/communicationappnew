@@ -46,6 +46,10 @@ dependencies:
   country_code_picker: ^2.0.2
   cloud_firestore: ^3.1.10
   google_maps_flutter: ^2.0.1
+  image_picker: ^0.8.5
+  get: ^4.6.1
+  firebase_storage: ^10.2.13
+  provider: ^4.1.2
 
 
 

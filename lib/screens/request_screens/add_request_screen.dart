@@ -1,3 +1,5 @@
+import 'package:communication/model/all_user_data_model.dart';
+import 'package:communication/model/request_data_model.dart';
 import 'package:communication/screens/tabbar_screen/learn_screens/book_screen.dart';
 import 'package:communication/screens/tabbar_screen/learn_screens/course_screen.dart';
 import 'package:communication/screens/widgets/job_widget.dart';
@@ -7,14 +9,72 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../controller/fb_store_controller.dart';
+import '../../helpers/helpers.dart';
+import '../../pref/shread_pref.dart';
+import '../nav_user_screens/main_screen.dart';
+import '../translator_screens/nav_translator_screens/main_translator_screen.dart';
+
 class AddRequestScreen extends StatefulWidget {
-  const AddRequestScreen({Key? key}) : super(key: key);
+  const AddRequestScreen({
+    Key? key,
+    this.title = 'create',
+    this.requestDataModel,
+    this.allUserDataModel,
+    // required this.allUserDataModel,
+  }) : super(key: key);
+
+  final String title;
+  final RequestDataModel? requestDataModel;
+  final AllUserDataModel? allUserDataModel;
+
+  // final AllUserDataModel allUserDataModel;
 
   @override
   _AddRequestScreenState createState() => _AddRequestScreenState();
 }
 
-class _AddRequestScreenState extends State<AddRequestScreen> {
+class _AddRequestScreenState extends State<AddRequestScreen> with Helpers {
+  TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
+
+  late TextEditingController locationTextController;
+  late TextEditingController dateOfMeetingTextController;
+  late TextEditingController timeTextController;
+  late TextEditingController shorTDescriptionTextController;
+  late TextEditingController hoursNumberTextController;
+  late DateTime createDate;
+  DateTime selectedDate = DateTime.now();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    createDate = DateTime.now();
+    locationTextController =
+        TextEditingController(text: widget.requestDataModel?.location ?? '');
+    dateOfMeetingTextController = TextEditingController(
+        text: widget.requestDataModel?.dateOfMeeting ?? '');
+    timeTextController = TextEditingController(
+        text: widget.requestDataModel?.timeOfMeeting ?? '');
+    shorTDescriptionTextController = TextEditingController(
+        text: widget.requestDataModel?.shorTDescription ?? '');
+    print(';;;;;;;;;;;;;;;;;;;;');
+    hoursNumberTextController = TextEditingController(
+        text: widget.requestDataModel?.hour?? '');
+  }
+
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    locationTextController.dispose();
+    dateOfMeetingTextController.dispose();
+    timeTextController.dispose();
+    shorTDescriptionTextController.dispose();
+    hoursNumberTextController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +116,8 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 10.h, right: 30.w, left: 30.w),
-                padding: EdgeInsets.only(top: 20.h, right: 25.w, left: 25.w,bottom: 20.h),
+                padding: EdgeInsets.only(
+                    top: 20.h, right: 25.w, left: 25.w, bottom: 20.h),
                 alignment: Alignment.center,
                 width: double.infinity,
                 height: 860.h,
@@ -80,7 +141,7 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                       height: 10.h,
                     ),
                     Text(
-                     'يمكن حجز مترجم في أي موعد تريده و ارسال طلب له بحيث انه سيقوم\n بالموافقة أو رفض طلبك',
+                      'يمكن حجز مترجم في أي موعد تريده و ارسال طلب له بحيث انه سيقوم\n بالموافقة أو رفض طلبك',
                       style: TextStyle(
                         fontSize: 9.sp,
                         color: HexColor('#004AAD'),
@@ -90,56 +151,39 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                       height: 20.h,
                     ),
                     Text(
-                      'نوع الطلب',
+                      'عدد ساعات الحجز',
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: HexColor('#004AAD'),
                       ),
                     ),
-                    SizedBox(height: 12.h,),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(120.w, 48.h),
-                            primary: HexColor('#004AAD'),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            'حضوري',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: Colors.white,
-                            ),
+                    SizedBox(
+                      height: 12.h,
+                    ),
+                    TextField(
+                      controller:  hoursNumberTextController,
+                      decoration: InputDecoration(
+                        label: Text(
+                          '10',
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: HexColor('#82B1EF'),
                           ),
                         ),
-                        Spacer(),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            side: BorderSide(
-                              color: HexColor('#004AAD'),
-                              width: 2,
-                            ),
-                            minimumSize: Size(120.w, 48.h),
-                            primary: HexColor('#FAFBFD'),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
+                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: HexColor('#004AAD'),
                           ),
-                          onPressed: () {},
-                          child: Text(
-                            'مرئي',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: HexColor('#004AAD'),
-                            ),
-                          ),
+                          borderRadius: BorderRadius.circular(15.0),
                         ),
-                      ],
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: HexColor('#004AAD'),
+                          ),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 20.h,
@@ -158,6 +202,7 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                       children: [
                         Expanded(
                           child: TextField(
+                            controller: locationTextController,
                             decoration: InputDecoration(
                               label: Text(
                                 'جازان',
@@ -185,18 +230,22 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                         SizedBox(
                           width: 6.w,
                         ),
-                        Container(
-                          width: 52.h,
-                          height: 52.h,
-                          decoration: BoxDecoration(
-                            color: HexColor('#004AAD'),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
+                        InkWell(
+                          onTap: () =>
+                              Navigator.pushNamed(context, '/map_screen'),
+                          child: Container(
+                            width: 52.h,
+                            height: 52.h,
+                            decoration: BoxDecoration(
+                              color: HexColor('#004AAD'),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15),
+                              ),
                             ),
-                          ),
-                          child: Icon(
-                            Icons.location_searching,
-                            color: Colors.white,
+                            child: Icon(
+                              Icons.location_searching,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],
@@ -228,9 +277,16 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                       children: [
                         Expanded(
                           child: TextField(
+                            keyboardType: TextInputType.phone,
+                            enabled: false,
+                            controller: dateOfMeetingTextController,
                             decoration: InputDecoration(
                               label: Text(
-                                'يوم',
+                                selectedDate.year.toString() +
+                                    '/' +
+                                    selectedDate.month.toString() +
+                                    '/' +
+                                    selectedDate.day.toString(),
                                 style: TextStyle(
                                   fontSize: 12.sp,
                                   color: HexColor('#82B1EF'),
@@ -243,7 +299,13 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                                 ),
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
-                              enabledBorder: OutlineInputBorder(
+                              // enabledBorder: OutlineInputBorder(
+                              //   borderSide: BorderSide(
+                              //     color: HexColor('#004AAD'),
+                              //   ),
+                              //   borderRadius: BorderRadius.circular(15.0),
+                              // ),
+                              disabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: HexColor('#004AAD'),
                                 ),
@@ -255,76 +317,21 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                         SizedBox(
                           width: 6.w,
                         ),
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              label: Text(
-                                'شهر',
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: HexColor('#82B1EF'),
-                                ),
-                              ),
-                              fillColor: Colors.white,
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: HexColor('#004AAD'),
-                                ),
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: HexColor('#004AAD'),
-                                ),
-                                borderRadius: BorderRadius.circular(15.0),
+                        InkWell(
+                          onTap: () => _selectDate(context),
+                          child: Container(
+                            width: 52.h,
+                            height: 52.h,
+                            decoration: BoxDecoration(
+                              color: HexColor('#004AAD'),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15),
                               ),
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 6.w,
-                        ),
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              label: Text(
-                                'سنة',
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: HexColor('#82B1EF'),
-                                ),
-                              ),
-                              fillColor: Colors.white,
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: HexColor('#004AAD'),
-                                ),
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: HexColor('#004AAD'),
-                                ),
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
+                            child: Icon(
+                              Icons.date_range,
+                              color: Colors.white,
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 6.w,
-                        ),
-                        Container(
-                          width: 52.h,
-                          height: 52.h,
-                          decoration: BoxDecoration(
-                            color: HexColor('#004AAD'),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.date_range,
-                            color: Colors.white,
                           ),
                         ),
                       ],
@@ -339,7 +346,9 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                         color: HexColor('#004AAD'),
                       ),
                     ),
-                    SizedBox(height: 15.h,),
+                    SizedBox(
+                      height: 15.h,
+                    ),
                     Text(
                       'موعد اللقاء',
                       style: TextStyle(
@@ -352,61 +361,53 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                     ),
                     Row(
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(93.w, 48.h),
-                            primary: HexColor('#004AAD'),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            'صباحا',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Spacer(),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            side: BorderSide(
-                              color: HexColor('#004AAD'),
-                              width: 2,
-                            ),
-                            minimumSize: Size(93.w, 48.h),
-                            primary: HexColor('#FAFBFD'),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            'مساءا',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: HexColor('#004AAD'),
+                        Expanded(
+                          child: TextField(
+                            keyboardType: TextInputType.phone,
+                            enabled: false,
+                            controller: timeTextController,
+                            decoration: InputDecoration(
+                              label: Text('${_time.format(context)}'),
+                              fillColor: Colors.white,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: HexColor('#004AAD'),
+                                ),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              // enabledBorder: OutlineInputBorder(
+                              //   borderSide: BorderSide(
+                              //     color: HexColor('#004AAD'),
+                              //   ),
+                              //   borderRadius: BorderRadius.circular(15.0),
+                              // ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: HexColor('#004AAD'),
+                                ),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
                             ),
                           ),
                         ),
                         SizedBox(
                           width: 6.w,
                         ),
-                        Container(
-                          width: 52.h,
-                          height: 52.h,
-                          decoration: BoxDecoration(
-                            color: HexColor('#004AAD'),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
+                        InkWell(
+                          onTap: () => _selectTime(),
+                          child: Container(
+                            width: 52.h,
+                            height: 52.h,
+                            decoration: BoxDecoration(
+                              color: HexColor('#004AAD'),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15),
+                              ),
                             ),
-                          ),
-                          child: Icon(
-                            Icons.access_time_outlined,
-                            color: Colors.white,
+                            child: Icon(
+                              Icons.timelapse_outlined,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],
@@ -435,6 +436,7 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                       height: 12.h,
                     ),
                     TextField(
+                      controller: shorTDescriptionTextController,
                       decoration: InputDecoration(
                         fillColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
@@ -452,7 +454,9 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                       ),
                       maxLines: 4,
                     ),
-                    SizedBox(height: 30.h,),
+                    SizedBox(
+                      height: 30.h,
+                    ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 48.h),
@@ -461,7 +465,9 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        performProcess();
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -492,4 +498,143 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
       ),
     );
   }
+
+  Future<void> performProcess() async {
+    print('startPerformProcess');
+    if (checkData()) {
+      await process();
+    }
+  }
+
+  bool checkData() {
+    print('startCheckData');
+    if (locationTextController.text.isNotEmpty &&
+        shorTDescriptionTextController.text.isNotEmpty &&
+        hoursNumberTextController.text.isNotEmpty) {
+      print('startCheckDataTrue');
+      return true;
+    }
+    showSnackBar(context: context, message: 'Enter required Data', error: true);
+    print('startCheckDataFalse');
+    return false;
+  }
+
+  Future<void> process() async {
+    print('startProcess');
+    bool status = widget.requestDataModel == null
+        ? await FbStoreController()
+            .createRequest(requestDataModel: requestDataModel)
+        : await FbStoreController()
+            // .updateRequest(requestDataModel: requestDataModel , id: requestDataModel.id);
+            .updateRequest(requestDataModel: requestDataModel);
+    // print(locationTextController.text);
+    // print('startProcessEndIf');
+    if (status) {
+      print('startStatus');
+      if (SharedPrefController().typeUser == 'user') {
+        print('user');
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+          ModalRoute.withName('/'),
+        );
+      } else {
+        print('other');
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => MainTranslatorScreen()),
+          ModalRoute.withName('/'),
+        );
+      }
+    }
+
+    ///showSnackBar(context : context , message : status ? 'Process Success' : 'Process Failed', error : true);
+  }
+
+  RequestDataModel get requestDataModel {
+    print('startGet');
+    RequestDataModel requestDataModel = widget.requestDataModel == null
+        ? RequestDataModel()
+        : widget.requestDataModel!;
+    print('01');
+    // requestDataModel.id = SharedPrefController().phone + 'user';
+    print('02');
+    requestDataModel.location = locationTextController.text;
+    print('03');
+    requestDataModel.timeOfMeeting = _time.toString();
+    print('04');
+    requestDataModel.shorTDescription = shorTDescriptionTextController.text;
+    print('05');
+    requestDataModel.dateOfMeeting = selectedDate.year.toString() +
+        '/' +
+        selectedDate.month.toString() +
+        '/' +
+        selectedDate.day.toString();
+
+    print('06');
+    // widget.requestDataModel == null ? requestDataModel.requestStatus = 'new': requestDataModel.requestStatus = 'update';
+    requestDataModel.requestStatus = 'Active';
+    print('07');
+    requestDataModel.phoneTranslater = SharedPrefController().phoneTranlator;
+    print('08');
+    requestDataModel.dateOfCreate = createDate.year.toString() +
+        '/' +
+        createDate.month.toString() +
+        '/' +
+        createDate.day.toString();
+
+    print('09');
+    requestDataModel.latitude = SharedPrefController().latitude;
+    print('10');
+    requestDataModel.longtude = SharedPrefController().longtude;
+    print('11');
+    requestDataModel.phoneUser = SharedPrefController().phone;
+    print('12');
+    requestDataModel.translaterName = SharedPrefController().tranlatorName;
+    print('13');
+    requestDataModel.userName = SharedPrefController().name;
+    print('14');
+    requestDataModel.hour = hoursNumberTextController.text;
+    print('15');
+    print('endGet');
+    print(requestDataModel);
+    return requestDataModel;
+  }
+
+
+  void _selectTime() async {
+    final TimeOfDay? newTime = await showTimePicker(
+      context: context,
+      initialTime: _time,
+    );
+    if (newTime != null) {
+      setState(() {
+        _time = newTime;
+      });
+    }
+  }
+
+  void clear() {
+    locationTextController.text = '';
+    shorTDescriptionTextController.text = '';
+    dateOfMeetingTextController.text = '';
+    timeTextController.text = '';
+    hoursNumberTextController.text = '';
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
 }
+
+

@@ -271,13 +271,16 @@ class _AddCodeScreenState extends State<AddCodeScreen> with Helpers {
         // });
         print('02');
         if (widget.signOrLogin) {
-          FbStoreController()
+          await FbStoreController()
               .addUser(userRegisterationModel: widget.userRegisterationModel);
           print(widget.userRegisterationModel.phone);
-          SharedPrefController().saveData(
-              phone: widget.userRegisterationModel.phone,
-              typeUser: widget.userRegisterationModel.userType);
+          print(widget.userRegisterationModel.phone + '0000000000000000000000000000000000000000000000000000000');
         }
+
+        await SharedPrefController().saveData(
+            phone: widget.userRegisterationModel.phone,
+            typeUser: widget.userRegisterationModel.userType);
+
         print('if user');
         // if (widget.signOrLogin) {
         //   FbStoreController()

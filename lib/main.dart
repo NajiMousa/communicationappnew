@@ -9,6 +9,7 @@ import 'package:communication/screens/display/job_info_screen.dart';
 import 'package:communication/screens/nav_user_screens/home_screen.dart';
 import 'package:communication/screens/nav_user_screens/job_screen.dart';
 import 'package:communication/screens/nav_user_screens/learn_screen.dart';
+import 'package:communication/screens/nav_user_screens/main_map_screen.dart';
 import 'package:communication/screens/nav_user_screens/main_screen.dart';
 import 'package:communication/screens/nav_user_screens/map_screen.dart';
 import 'package:communication/screens/nav_user_screens/request%20_screen.dart';
@@ -73,23 +74,23 @@ class MyApp extends StatelessWidget {
             routes: {
               // '/all_widget' : (context) => AllWidget(),
               '/launch_screen' : (context) => LaunchScreen(),
-              '/home_screen' : (context) => HomeScreen(),
+              // '/home_screen' : (context) => HomeScreen(),
               '/learn_screen' : (context) => LearnScreen(),
               '/book_screen' : (context) => BookScreen(),
               '/course_screen' : (context) => CourseScreen(),
               '/request_empty_screen' : (context) => RequestEmptyScreen(),
               '/job_screen' : (context) => JobScreen(),
-              '/request_screen' : (context) => RequestScreen(),
+              // '/request_screen' : (context) => RequestScreen(),
               '/settings_screen' : (context) => SettingsScreen(),
-              '/request_details_screen' : (context) => RequestDetailsScreen(),
+              // '/request_details_screen' : (context) => RequestDetailsScreen(),
               '/evaluation_person_screen' : (context) => EvaluationPersonScreen(),
-              '/user_profile_screen' : (context) => UserProfileScreen(),
-              '/edit_profile_user_screen' : (context) => EditProfileUserScreen(),
+              // '/user_profile_screen' : (context) => UserProfileScreen(),
+              // '/edit_profile_user_screen' : (context) => EditProfileUserScreen(),
               '/about_us_screen' : (context) => AboutUsScreen(),
               '/privacy_policy_screen' : (context) => PrivacyPolicyScreen(),
               '/terms_conditions_screen' : (context) => TermsConditionsScreen(),
               '/help_faqs_screen' : (context) => HelpFaqsScreen(),
-              '/add_request_screen' : (context) => AddRequestScreen(),
+              // '/add_request_screen' : (context) => AddRequestScreen(),
               '/login_screen' : (context) => LoginScreen(),
               '/recovery_account_screen' : (context) => RecoveryAccountScreen(),
               // '/add_code_screen' : (context) => AddCodeScreen(),
@@ -99,8 +100,8 @@ class MyApp extends StatelessWidget {
               '/thank_you_screen' : (context) => ThankYouScreen(),
               '/no_connection_screen' : (context) => NoConnectionScreen(),
               '/success_send_screen' : (context) => SuccessSendScreen(),
-              '/request_details_translator_screen' : (context) => RequestDetailsTranslatorScreen(),
-              '/home_translator_screen' : (context) => HomeTranslatorScreen(),
+              // '/request_details_translator_screen' : (context) => RequestDetailsTranslatorScreen(),
+              // '/home_translator_screen' : (context) => HomeTranslatorScreen(),
               '/blog_info_screen' : (context) => BlogInfoScreen(),
               '/translator_profile_screen' : (context) => TranslatorProfileScreen(),
               '/my_evaluation_screen' : (context) => MyEvaluationScreen(),
@@ -112,12 +113,15 @@ class MyApp extends StatelessWidget {
               '/main_screen' : (context) => MainScreen(),
               '/main_translator_screen' : (context) => MainTranslatorScreen(),
               '/map_screen' : (context) => MapScreen(),
+              // '/main_map_screen' : (context) => MainMapScreen(),
+
             },
             //... other code
             builder: (context, widget) {
               //add this line
               ScreenUtil.setContext(context);
               return MediaQuery(
+
                 //Setting font does not change with system font size
                 data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                 child: widget!,

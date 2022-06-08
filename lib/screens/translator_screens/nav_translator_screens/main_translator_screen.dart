@@ -14,6 +14,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../controller/fb_store_controller.dart';
+import '../../../model/all_user_data_model.dart';
+import '../../../model/request_data_model.dart';
+import '../../../pref/shread_pref.dart';
 import 'home_screen.dart';
 
 class MainTranslatorScreen extends StatefulWidget {
@@ -26,6 +30,18 @@ class MainTranslatorScreen extends StatefulWidget {
 class _MainTranslatorScreenState extends State<MainTranslatorScreen> {
   int cruuentPageIndex = 0;
   List pageTitle = ['الرئيسية', 'طلبات', 'الاعدادات'];
+  AllUserDataModel allUserDataModel = AllUserDataModel();
+  List<AllUserDataModel> userList = [];
+  // RequestDataModel requestDataModel = RequestDataModel();
+  List<RequestDataModel> allRequestList = [];
+  List<RequestDataModel> allRequestListG = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+     getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,10 +113,31 @@ class _MainTranslatorScreenState extends State<MainTranslatorScreen> {
         },
       ),
       body: cruuentPageIndex == 0
-          ? const HomeTranslatorScreen()
+          ?  HomeTranslatorScreen(allUserDataModel: allUserDataModel,)
           : cruuentPageIndex == 1
-              ? const RequestTranslatorScreen()
+              // ?  RequestTranslatorScreen(requestDataModel: allRequestListG,allUserDataModel: userList,)
+              ?  RequestTranslatorScreen()
               : SettingsScreen(),
     );
+  }
+
+  Future<void> getData () async{
+    userList = await FbStoreController().getDataUser();
+    allRequestList = await FbStoreController().getAllRequestData();
+    allRequestListG.addAll(allRequestList.where((element) =>
+        element.phoneTranslater.contains(SharedPrefController().phone)));
+    print('onPressed');
+    for (int i = 0; i < userList.length; i++) {
+      print(SharedPrefController().phone);
+      if (userList[i].phone == SharedPrefController().phone) {
+        setState(() {
+          allUserDataModel = userList[i];
+        });
+        SharedPrefController().setName(name: userList[i].fullName);
+        print('nnnnnn');
+        print(userList[i].fullName);
+        print('ssssss');
+      }
+    }
   }
 }

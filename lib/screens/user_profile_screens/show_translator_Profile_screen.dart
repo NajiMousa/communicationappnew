@@ -1,36 +1,33 @@
-import 'package:communication/screens/tabbar_screen/learn_screens/book_screen.dart';
-import 'package:communication/screens/tabbar_screen/learn_screens/course_screen.dart';
-import 'package:communication/screens/widgets/job_widget.dart';
-import 'package:communication/screens/widgets/request_widget.dart';
+import 'package:communication/controller/translator_map_getx_controller.dart';
+import 'package:communication/screens/request_screens/add_request_screen.dart';
+import 'package:communication/screens/user_profile_screens/edit_profile_user_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
+import '../../controller/fb_storage_controller.dart';
+import '../../controller/fb_store_controller.dart';
+import '../../model/all_user_data_model.dart';
+import '../../pref/shread_pref.dart';
 
-class TranslatorProfileScreen extends StatefulWidget {
-  const TranslatorProfileScreen({Key? key}) : super(key: key);
+class ShowTranslatorProfileScreen extends StatefulWidget {
+  ShowTranslatorProfileScreen({
+    Key? key,
+    required this.allUserDataModel,
+  }) : super(key: key);
+  final AllUserDataModel allUserDataModel;
 
   @override
-  _TranslatorProfileScreenState createState() =>
-      _TranslatorProfileScreenState();
+  _ShowTranslatorProfileScreenState createState() => _ShowTranslatorProfileScreenState();
 }
 
-class _TranslatorProfileScreenState extends State<TranslatorProfileScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabBarController;
+class _ShowTranslatorProfileScreenState extends State<ShowTranslatorProfileScreen> {
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabBarController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _tabBarController.dispose();
+    // enterData();
   }
 
   @override
@@ -38,7 +35,9 @@ class _TranslatorProfileScreenState extends State<TranslatorProfileScreen>
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Icon(
             Icons.arrow_back_ios,
             color: Colors.white,
@@ -53,16 +52,16 @@ class _TranslatorProfileScreenState extends State<TranslatorProfileScreen>
               fontWeight: FontWeight.bold,
               color: Colors.white),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.edit,
-              color: HexColor('#FAFBFD'),
-              size: 24.h,
-            ),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () => editProfile(),
+        //     icon: Icon(
+        //       Icons.edit,
+        //       color: HexColor('#FAFBFD'),
+        //       size: 24.h,
+        //     ),
+        //   ),
+        // ],
         centerTitle: true,
         elevation: 0,
       ),
@@ -99,28 +98,41 @@ class _TranslatorProfileScreenState extends State<TranslatorProfileScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CircleAvatar(
+                            child: FutureBuilder<String>(
+                              future: FbStorageController()
+                                  .readImage(
+                                  name: SharedPrefController().phone),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return CircleAvatar(
+                                      radius: 30.r,
+                                      backgroundColor:
+                                      Colors.transparent,
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          snapshot.data.toString(),
+                                          fit: BoxFit.cover,
+                                          height: 60.h,
+                                          width: 60.w,
+                                        ),
+                                      ));
+                                } else {
+                                  return CircleAvatar(
+                                      radius: 30.r,
+                                      backgroundColor:
+                                      Colors.transparent,
+                                      child: ClipOval(
+                                        child: Image.asset(
+                                          "images/user.png",
+                                          fit: BoxFit.cover,
+                                          height: 60.h,
+                                          width: 60.w,
+                                        ),
+                                      ));
+                                }
+                              },
+                            ),
                             maxRadius: 33.h,
-                          ),
-                          SizedBox(
-                            height: 14.h,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.edit,
-                                color: HexColor('#004AAD'),
-                                size: 16.h,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text(
-                                'تعديل الملف الشخصي',
-                                style: TextStyle(
-                                    fontSize: 8.sp, color: Colors.white),
-                              ),
-                            ],
                           ),
                         ],
                       ),
@@ -134,7 +146,8 @@ class _TranslatorProfileScreenState extends State<TranslatorProfileScreen>
                         Row(
                           children: [
                             Text(
-                              'شوق المنصور',
+                              // 'شوق المنصور',
+                              widget.allUserDataModel.fullName,
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
@@ -155,7 +168,7 @@ class _TranslatorProfileScreenState extends State<TranslatorProfileScreen>
                           height: 2.h,
                         ),
                         Text(
-                          'ana0taha.gmail.com',
+                          widget.allUserDataModel.email,
                           style: TextStyle(
                             fontSize: 10.sp,
                             color: Colors.white,
@@ -165,7 +178,7 @@ class _TranslatorProfileScreenState extends State<TranslatorProfileScreen>
                           height: 12.h,
                         ),
                         Text(
-                          'شوق المنصور مترجم لغه الاشارة لان فئة الصم والبكم\n نجوم يتميزو بمهارات عاليه لذلك اقدم خدماتي لهم\n لتسهيل التواصل ولادراجهم بكل الخدمات الميسرة و\nعلى ذلك سابذل قصارى جهدي لخدمتهم بشكل اكبر\n بالدورات وغيرها ',
+                          widget.allUserDataModel.shorTDescription,
                           style: TextStyle(
                             fontSize: 9.sp,
                             color: Colors.white,
@@ -181,121 +194,165 @@ class _TranslatorProfileScreenState extends State<TranslatorProfileScreen>
           SizedBox(
             height: 25.h,
           ),
-          Row(
-            children: [
-              Container(
-                margin: EdgeInsets.only(right: 30.w),
-                width: 140.w,
-                height: 70.h,
-                decoration: BoxDecoration(
-                  color: HexColor('#82B1EF'),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(25),
-                  ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30.w),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                side: BorderSide(
+                  color: HexColor('#004AAD'),
+                  width: 2,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.help_center,
-                      size: 24.h,
-                      color: HexColor('#004AAD'),
-                    ),
-                    SizedBox(
-                      width: 15.w,
-                    ),
-                    Text(
-                      'المساعدة',
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold,
-                          color: HexColor('#004AAD')),
-                    ),
-                  ],
+                minimumSize: Size(double.infinity, 48.h),
+                primary: HexColor('#FAFBFD'),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
               ),
-              Spacer(),
-              Container(
-                margin: EdgeInsets.only(left: 30.w),
-                width: 140.w,
-                height: 70.h,
-                decoration: BoxDecoration(
-                  color: HexColor('#82B1EF'),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(25),
+              onPressed: () async {
+                setState(() {
+                  SharedPrefController()
+                      .setFirstTime(firstTimeAdd: false);
+                  SharedPrefController()
+                      .setPhoneTranlator(phoneTranlator: widget.allUserDataModel.phone);
+                  SharedPrefController()
+                      .setTranlatorName(tranlatorName: widget.allUserDataModel.fullName);
+                });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddRequestScreen(
+                        title: 'create', requestDataModel: null),
                   ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.wallet_giftcard,
-                      size: 24.h,
+                );
+              },
+
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.accessibility_sharp,
+                    size: 20,
+                    color: HexColor('#004AAD'),
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Text(
+                    'حجز موعد',
+                    style: TextStyle(
+                      fontSize: 14.sp,
                       color: HexColor('#004AAD'),
                     ),
-                    SizedBox(
-                      width: 15.w,
-                    ),
-                    Text(
-                      'المحفظة',
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold,
-                          color: HexColor('#004AAD')),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 20.h, left: 18.w, right: 18.w),
-            child: TabBar(
-              indicatorColor: HexColor('#FAFBFD'),
-              controller: _tabBarController,
-              tabs: [
-                Tab(
-                  child: Container(
-                    width: double.infinity,
-                    alignment: AlignmentDirectional.center,
-                    decoration: BoxDecoration(
+            padding: EdgeInsets.only(
+              top: 25.h,
+              right: 65.w,
+            ),
+            child: Column(
+              children: [
+                ListTile(
+                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                  leading: Icon(
+                    Icons.call,
+                    color: HexColor('#004AAD'),
+                  ),
+                  title: Text(
+                    SharedPrefController().phone,
+                    style: TextStyle(
+                      fontSize: 16.sp,
                       color: HexColor('#004AAD'),
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      ),
-                    ),
-                    child: Text(
-                      'البيانات الشخصية',
-                      style: TextStyle(fontSize: 14.sp, color: Colors.white),
                     ),
                   ),
                 ),
-                Tab(
-                  child: Container(
-                    width: double.infinity,
-                    alignment: AlignmentDirectional.center,
-                    decoration: BoxDecoration(
-                      color: HexColor('#E5ECF6'),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        bottomLeft: Radius.circular(15),
-                      ),
+                SizedBox(
+                  height: 12.h,
+                ),
+                ListTile(
+                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                  leading: Icon(
+                    Icons.date_range,
+                    color: HexColor('#004AAD'),
+                  ),
+                  title: Text(
+                    widget.allUserDataModel.dateOfBirth,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: HexColor('#004AAD'),
                     ),
-                    child: Text(
-                      'التقييمات ',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: HexColor('#004AAD'),
-                      ),
+                  ),
+                ),
+                SizedBox(
+                  height: 12.h,
+                ),
+                ListTile(
+                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                  leading: Icon(
+                    Icons.home_outlined,
+                    color: HexColor('#004AAD'),
+                  ),
+                  title: Text(
+                    widget.allUserDataModel.location,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: HexColor('#004AAD'),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 12.h,
+                ),
+                ListTile(
+                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                  leading: Icon(
+                    Icons.transgender_outlined,
+                    color: HexColor('#004AAD'),
+                  ),
+                  title: Text(
+                    widget.allUserDataModel.gender,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: HexColor('#004AAD'),
                     ),
                   ),
                 ),
               ],
             ),
-          ),
+          )
         ],
       ),
     );
+  }
+
+  void editProfile () async{
+    List<AllUserDataModel> userList =
+    await FbStoreController().getDataUser();
+    print('editProfile');
+    for (int i = 0; i < userList.length; i++) {
+      print(SharedPrefController().phone);
+      if (userList[i].phone ==
+          SharedPrefController().phone) {
+        print('ddddddd');
+        // print(userList[i]);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                EditProfileUserScreen(
+                  title: 'update',
+                  allUserDataModel: userList[i],
+                ),
+          ),
+        );
+      }
+      print(userList[i].fullName);
+      print('hhhhhhhhh');
+    }
+    print(userList.length);
   }
 }

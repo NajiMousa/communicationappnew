@@ -4,11 +4,14 @@
 import 'dart:async';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:communication/model/request_data_model.dart';
+import 'package:communication/pref/shread_pref.dart';
 import 'package:communication/screens/nav_user_screens/home_screen.dart';
 import 'package:communication/screens/nav_user_screens/job_screen.dart';
 import 'package:communication/screens/nav_user_screens/learn_screen.dart';
 import 'package:communication/screens/nav_user_screens/request%20_screen.dart';
 import 'package:communication/screens/nav_user_screens/settings%20_screen.dart';
+import 'package:communication/screens/user_profile_screens/edit_profile_user_screen.dart';
 import 'package:communication/screens/widgets/course_widget.dart';
 import 'package:communication/screens/widgets/job_widget.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +19,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../controller/translator_map_getx_controller.dart';
+
 class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
+   MapScreen({Key? key , this.requestDataModel}) : super(key: key);
+
+  late RequestDataModel? requestDataModel ;
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -26,6 +33,28 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   int cruuentPageIndex = 0;
   List pageTitle = ['الرئيسية', 'زد معرفتك', 'طلبات', 'وظائف', 'الاعدادات'];
+
+  @override
+  void initState() {
+    // widget.requestDataModel != null ?
+    // _markers.add(
+    //     Marker(
+    //       markerId: MarkerId(widget.requestDataModel!.phoneUser.toString()),
+    //       position: LatLng(
+    //           double.parse(widget.requestDataModel!.latitude), double.parse(widget.requestDataModel!.longtude)),
+    //       // infoWindow: InfoWindow(title: 'naji', snippet: 'first'),
+    //       icon: BitmapDescriptor.defaultMarker,
+    //     )) :
+    // _markers.add(
+    //     Marker(
+    //       markerId: MarkerId(widget.requestDataModel!.phoneUser.toString()),
+    //       position: LatLng(
+    //           double.parse(widget.requestDataModel!.latitude), double.parse(widget.requestDataModel!.longtude)),
+    //       // infoWindow: InfoWindow(title: 'naji', snippet: 'first'),
+    //       icon: BitmapDescriptor.defaultMarker,
+    //     ));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,49 +83,49 @@ class _MapScreenState extends State<MapScreen> {
       ),
       backgroundColor: HexColor('#FAFBFD'),
       body: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
         children: [
           GoogleMap(
             initialCameraPosition: CameraPosition(target: _center, zoom: 14.0),
             myLocationEnabled: true,
             myLocationButtonEnabled:true,
-            markers: markerGlobal,
-            // trafficEnabled: true,
-            // mapToolbarEnabled: false,
-            //  mapType: MapType.satellite,
-            // markers: _createMarker(),
-            // onMapCreated: _onMapCreated,
-            // mapType: _currentMapType,
-            // onCameraMove: _onCameraMove,
+            markers: _markers,
             onTap: _handleTap,
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(double.infinity, 48.h),
-              primary: HexColor('#004AAD'),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+          widget.requestDataModel == null ? Padding(
+            padding: EdgeInsets.only(right: 30.w,left: 30.w,bottom: 30.h),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(double.infinity, 48.h),
+                primary: HexColor('#004AAD'),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+
+              onPressed: () {
+                // _onAddMarkerButtonPressed();
+                print(latitudeG);
+                print(longtudeG);
+                SharedPrefController().setLocationUser(latitudeL: latitudeG, longtudeL: longtudeG);
+                Navigator.pop(context);
+              },
+              child: Text(
+                'تسجيل الموقع',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.white,
+                ),
               ),
             ),
-            onPressed: () {
-              _onAddMarkerButtonPressed();
-            },
-            child: Text(
-              'تسجيل الموقع',
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: Colors.white,
-              ),
-            ),
-          ),
+          ):SizedBox(),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: HexColor('#004AAD'),
-        onPressed: () => Navigator.pushNamed(context, '/map_screen'),
-        child: Icon(Icons.my_location,color: Colors.white,),
       ),
     );
   }
+
+  late String latitudeG ;
+  late String longtudeG ;
 
   static final LatLng _center = LatLng(31.411340, 34.348297);             // تحديد النقطة المرجعية
   LatLng _lastMapPosition = _center;
@@ -106,25 +135,31 @@ class _MapScreenState extends State<MapScreen> {
   String _detail = "";
 
   _handleTap(LatLng point) {                                                // تحديد موقع
+    print('first');
+    latitudeG = point.latitude.toString();
+    longtudeG = point.longitude.toString();
     print(point.toString());
+    print(latitudeG);
+    print(longtudeG);
     _markers.clear();
     // _getLocation(point);
     setState(() {
       _markers.add(
-      Marker(
-        markerId: MarkerId(point.toString()),
-        position: point,
-        infoWindow: InfoWindow(title: 'naji', snippet: 'first'),
-        icon: BitmapDescriptor.defaultMarker,
-      )
+          Marker(
+            markerId: MarkerId(point.toString()),
+            position: point,
+            // infoWindow: InfoWindow(title: 'naji', snippet: 'first'),
+            icon: BitmapDescriptor.defaultMarker,
+          )
       );
     });
   }
 
-_onAddMarkerButtonPressed() {                                       //  و حفظه اختيار موقع بناء على الضغط
-  setState(() {
-    markerGlobal = _markers;
-  });
+// _onAddMarkerButtonPressed() {                                       //  و حفظه اختيار موقع بناء على الضغط
+//   setState(() {
+//     markerGlobal = _markers;
+//
+//   });
 }
 
 // Set<Marker> _createMarker() {                                           // انشاء علامة
@@ -187,4 +222,4 @@ _onAddMarkerButtonPressed() {                                       //  و حف�
     //   _lane1.text = _title + "   " + _detail;
     // });
   // }
-}
+// }

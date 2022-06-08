@@ -1,17 +1,34 @@
-
+import 'package:communication/controller/translator_map_getx_controller.dart';
+import 'package:communication/screens/user_profile_screens/edit_profile_user_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
+import '../../controller/fb_storage_controller.dart';
+import '../../controller/fb_store_controller.dart';
+import '../../model/all_user_data_model.dart';
+import '../../pref/shread_pref.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({Key? key}) : super(key: key);
+  UserProfileScreen({
+    Key? key,
+   required this.allUserDataModel,
+  }) : super(key: key);
+  final AllUserDataModel allUserDataModel;
 
   @override
   _UserProfileScreenState createState() => _UserProfileScreenState();
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // enterData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +53,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/edit_profile_user_screen');
-            },
+            onPressed: () => editProfile(),
             icon: Icon(
               Icons.edit,
               color: HexColor('#FAFBFD'),
@@ -82,13 +97,59 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CircleAvatar(
+                            child: FutureBuilder<String>(
+                              future: FbStorageController()
+                                  .readImage(
+                                  name: SharedPrefController().phone),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return CircleAvatar(
+                                      radius: 30.r,
+                                      backgroundColor:
+                                      Colors.transparent,
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          snapshot.data.toString(),
+                                          fit: BoxFit.cover,
+                                          height: 60.h,
+                                          width: 60.w,
+                                        ),
+                                      ));
+                                } else {
+                                  return CircleAvatar(
+                                      radius: 30.r,
+                                      backgroundColor:
+                                      Colors.transparent,
+                                      child: ClipOval(
+                                        child: Image.asset(
+                                          "images/user.png",
+                                          fit: BoxFit.cover,
+                                          height: 60.h,
+                                          width: 60.w,
+                                        ),
+                                      ));
+                                }
+                              },
+                            ),
                             maxRadius: 33.h,
                           ),
                           SizedBox(
                             height: 14.h,
                           ),
                           InkWell(
-                            onTap: () => Navigator.pushNamed(context, '/edit_profile_user_screen'),
+                            onTap: () {
+                                print('startOnTap');
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) =>
+                                //         EditProfileUserScreen(
+                                //             title: 'create',
+                                //             allUserDataModel : null),
+                                //   ),
+                                // );
+                              editProfile();
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -120,7 +181,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         Row(
                           children: [
                             Text(
-                              'شوق المنصور',
+                              // 'شوق المنصور',
+                              widget.allUserDataModel.fullName,
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
@@ -141,7 +203,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           height: 2.h,
                         ),
                         Text(
-                          'ana0taha.gmail.com',
+                          widget.allUserDataModel.email,
                           style: TextStyle(
                             fontSize: 10.sp,
                             color: Colors.white,
@@ -151,7 +213,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           height: 12.h,
                         ),
                         Text(
-                          'شوق المنصور مترجم لغه الاشارة لان فئة الصم والبكم\n نجوم يتميزو بمهارات عاليه لذلك اقدم خدماتي لهم\n لتسهيل التواصل ولادراجهم بكل الخدمات الميسرة و\nعلى ذلك سابذل قصارى جهدي لخدمتهم بشكل اكبر\n بالدورات وغيرها ',
+                          widget.allUserDataModel.shorTDescription,
                           style: TextStyle(
                             fontSize: 9.sp,
                             color: Colors.white,
@@ -248,14 +310,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     color: HexColor('#004AAD'),
                   ),
                   title: Text(
-                    '+966 - 1234 123 12',
+                    SharedPrefController().phone,
                     style: TextStyle(
                       fontSize: 16.sp,
                       color: HexColor('#004AAD'),
                     ),
                   ),
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(
+                  height: 12.h,
+                ),
                 ListTile(
                   visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                   leading: Icon(
@@ -263,14 +327,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     color: HexColor('#004AAD'),
                   ),
                   title: Text(
-                    '09 December 1996',
+                    widget.allUserDataModel.dateOfBirth,
                     style: TextStyle(
                       fontSize: 16.sp,
                       color: HexColor('#004AAD'),
                     ),
                   ),
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(
+                  height: 12.h,
+                ),
                 ListTile(
                   visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                   leading: Icon(
@@ -278,14 +344,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     color: HexColor('#004AAD'),
                   ),
                   title: Text(
-                    'جازان',
+                    widget.allUserDataModel.location,
                     style: TextStyle(
                       fontSize: 16.sp,
                       color: HexColor('#004AAD'),
                     ),
                   ),
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(
+                  height: 12.h,
+                ),
                 ListTile(
                   visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                   leading: Icon(
@@ -293,7 +361,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     color: HexColor('#004AAD'),
                   ),
                   title: Text(
-                    'أنثى',
+                    widget.allUserDataModel.gender,
                     style: TextStyle(
                       fontSize: 16.sp,
                       color: HexColor('#004AAD'),
@@ -306,5 +374,32 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ],
       ),
     );
+  }
+
+  void editProfile () async{
+    List<AllUserDataModel> userList =
+        await FbStoreController().getDataUser();
+    print('editProfile');
+    for (int i = 0; i < userList.length; i++) {
+      print(SharedPrefController().phone);
+      if (userList[i].phone ==
+          SharedPrefController().phone) {
+        print('ddddddd');
+        // print(userList[i]);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                EditProfileUserScreen(
+                  title: 'update',
+                  allUserDataModel: userList[i],
+                ),
+          ),
+        );
+      }
+      print(userList[i].fullName);
+      print('hhhhhhhhh');
+    }
+    print(userList.length);
   }
 }

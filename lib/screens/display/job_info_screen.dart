@@ -1,9 +1,12 @@
+import 'package:communication/model/job_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class JobInfoScreen extends StatefulWidget {
-  const JobInfoScreen({Key? key}) : super(key: key);
+  JobInfoScreen({Key? key , required this.jobDataModel}) : super(key: key);
+
+  JobDataModel jobDataModel;
 
   @override
   _JobInfoScreenState createState() => _JobInfoScreenState();
@@ -75,7 +78,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'مصمم تجربة مستخدم',
+                              widget.jobDataModel.jobName,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: HexColor('#004AAD'),
@@ -85,7 +88,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                               height: 5.h,
                             ),
                             Text(
-                              'ثلاث سنوات خبرة',
+                              widget.jobDataModel.expertiseYear,
                               style: TextStyle(
                                 fontSize: 10.sp,
                                 color: HexColor('#004AAD'),
@@ -117,7 +120,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            'مفتوح',
+                            widget.jobDataModel.jobStatus,
                             style: TextStyle(
                               fontSize: 8.sp,
                               color: Colors.white,
@@ -136,7 +139,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                           width: 4.w,
                         ),
                         Text(
-                          'جازان',
+                          widget.jobDataModel.location,
                           style: TextStyle(
                             fontSize: 8.sp,
                             color: HexColor('#82B1EF'),
@@ -154,7 +157,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                           width: 4.w,
                         ),
                         Text(
-                          '10 دقائق',
+                          widget.jobDataModel.addDate,
                           style: TextStyle(
                             fontSize: 8.sp,
                             color: HexColor('#82B1EF'),
@@ -211,7 +214,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                       width: 6.w,
                     ),
                     Text(
-                      'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
+                      widget.jobDataModel.tasks,
                       style: TextStyle(
                         fontSize: 10.sp,
                         color: HexColor('#004AAD'),
@@ -222,26 +225,26 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                 SizedBox(
                   height: 8.h,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.done_outlined,
-                      size: 10.h,
-                      color: HexColor('#004AAD'),
-                    ),
-                    SizedBox(
-                      width: 6.w,
-                    ),
-                    Text(
-                      'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
-                      style: TextStyle(
-                        fontSize: 9.sp,
-                        color: HexColor('#004AAD'),
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Icon(
+                //       Icons.done_outlined,
+                //       size: 10.h,
+                //       color: HexColor('#004AAD'),
+                //     ),
+                //     SizedBox(
+                //       width: 6.w,
+                //     ),
+                //     Text(
+                //       'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
+                //       style: TextStyle(
+                //         fontSize: 9.sp,
+                //         color: HexColor('#004AAD'),
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
@@ -289,7 +292,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                       width: 6.w,
                     ),
                     Text(
-                      'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
+                     widget.jobDataModel.conditions,
                       style: TextStyle(
                         fontSize: 10.sp,
                         color: HexColor('#004AAD'),
@@ -300,26 +303,26 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                 SizedBox(
                   height: 8.h,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.done_outlined,
-                      size: 10.h,
-                      color: HexColor('#004AAD'),
-                    ),
-                    SizedBox(
-                      width: 6.w,
-                    ),
-                    Text(
-                      'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
-                      style: TextStyle(
-                        fontSize: 9.sp,
-                        color: HexColor('#004AAD'),
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Icon(
+                //       Icons.done_outlined,
+                //       size: 10.h,
+                //       color: HexColor('#004AAD'),
+                //     ),
+                //     SizedBox(
+                //       width: 6.w,
+                //     ),
+                //     Text(
+                //       'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
+                //       style: TextStyle(
+                //         fontSize: 9.sp,
+                //         color: HexColor('#004AAD'),
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
@@ -381,7 +384,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            'قيد التنفيذ',
+                            widget.jobDataModel.jobTitle,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -415,7 +418,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            'أونلاين',
+                            widget.jobDataModel.lastDate,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -455,7 +458,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            'الثلاثاء 02/01/2022',
+                            widget.jobDataModel.jobType,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -489,7 +492,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            'الخميس 04/01/2022',
+                            widget.jobDataModel.level,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -529,7 +532,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            '02:00 PM',
+                            widget.jobDataModel.salary,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -563,7 +566,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            '02:00 PM',
+                            widget.jobDataModel.degree,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -603,7 +606,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            '02:00 PM',
+                            widget.jobDataModel.expertiseYear,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -637,7 +640,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            '02:00 PM',
+                            widget.jobDataModel.location,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -696,7 +699,7 @@ class _JobInfoScreenState extends State<JobInfoScreen> {
                     ),
                   ),
                   child: Text(
-                    'https://www.google.com/',
+                    widget.jobDataModel.jobLink,
                     style: TextStyle(
                       fontSize: 10.sp,
                       color: HexColor('#004AAD'),

@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../model/course_data_model.dart';
+
 class CourseInfoScreen extends StatefulWidget {
-  const CourseInfoScreen({Key? key}) : super(key: key);
+  CourseInfoScreen({Key? key,required this.courseDataModel}) : super(key: key);
+
+  CourseDataModel courseDataModel;
 
   @override
   _CourseInfoScreenState createState() => _CourseInfoScreenState();
@@ -74,7 +78,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'دورة تعلم لغة الإشارة',
+                              widget.courseDataModel.courseName,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: HexColor('#004AAD'),
@@ -84,7 +88,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                               height: 5.h,
                             ),
                             Text(
-                              'أربعة عشر ساعة',
+                              widget.courseDataModel.hourNumber,
                               style: TextStyle(
                                 fontSize: 10.sp,
                                 color: HexColor('#004AAD'),
@@ -116,7 +120,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            'مفتوح',
+                            widget.courseDataModel.courseStatus,
                             style: TextStyle(
                               fontSize: 8.sp,
                               color: Colors.white,
@@ -135,7 +139,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                           width: 4.w,
                         ),
                         Text(
-                          'جازان',
+                          widget.courseDataModel.location,
                           style: TextStyle(
                             fontSize: 8.sp,
                             color: HexColor('#82B1EF'),
@@ -153,7 +157,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                           width: 4.w,
                         ),
                         Text(
-                          '10 دقائق',
+                          widget.courseDataModel.addDate,
                           style: TextStyle(
                             fontSize: 8.sp,
                             color: HexColor('#82B1EF'),
@@ -199,7 +203,8 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                   height: 12.h,
                 ),
                 Text(
-                  ' آن للصم العرب الذين يركبون سفينة الحياة منذ عقود وعقود بل منذ قرون\n وقرون .. وهم على ظهرها ركود..  وقد طال رسوها وسط بحرهم الصامت \nأن يتحركوا نحو شاطئ الأمل .. شاطئ الأمن والأمان .. حيث الأمل بكل ألوان \nالطيف في انتظارهم ترفعه أيديكم .. ترسمه أياديهم بلغة إشارية فصحى\n ترتشف من معين لغتنا العربية سر مبناها وسحر معناها\n تدهش العيون حركاتها . تتدفق إلى القلوب . تهز مشاعرهم . كما هزت لغة\n الكلام قلوبنا  .! منها ينهلون ما طاب لهم من العلم.. وبحروفها يكتبون ما \nشاء لهم من طيب الكلم ',
+                  // ' آن للصم العرب الذين يركبون سفينة الحياة منذ عقود وعقود بل منذ قرون\n وقرون .. وهم على ظهرها ركود..  وقد طال رسوها وسط بحرهم الصامت \nأن يتحركوا نحو شاطئ الأمل .. شاطئ الأمن والأمان .. حيث الأمل بكل ألوان \nالطيف في انتظارهم ترفعه أيديكم .. ترسمه أياديهم بلغة إشارية فصحى\n ترتشف من معين لغتنا العربية سر مبناها وسحر معناها\n تدهش العيون حركاتها . تتدفق إلى القلوب . تهز مشاعرهم . كما هزت لغة\n الكلام قلوبنا  .! منها ينهلون ما طاب لهم من العلم.. وبحروفها يكتبون ما \nشاء لهم من طيب الكلم ',
+                  widget.courseDataModel.courseInfo,
                   style: TextStyle(
                     fontSize: 9.sp,
                     color: HexColor('#004AAD'),
@@ -252,7 +257,8 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                       width: 6.w,
                     ),
                     Text(
-                      'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
+                      // 'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
+                      widget.courseDataModel.courseContent,
                       style: TextStyle(
                         fontSize: 10.sp,
                         color: HexColor('#004AAD'),
@@ -260,29 +266,29 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 8.h,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.done_outlined,
-                      size: 10.h,
-                      color: HexColor('#004AAD'),
-                    ),
-                    SizedBox(
-                      width: 6.w,
-                    ),
-                    Text(
-                      'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
-                      style: TextStyle(
-                        fontSize: 9.sp,
-                        color: HexColor('#004AAD'),
-                      ),
-                    ),
-                  ],
-                ),
+                // SizedBox(
+                //   height: 8.h,
+                // ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Icon(
+                //       Icons.done_outlined,
+                //       size: 10.h,
+                //       color: HexColor('#004AAD'),
+                //     ),
+                //     SizedBox(
+                //       width: 6.w,
+                //     ),
+                //     Text(
+                //       'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
+                //       style: TextStyle(
+                //         fontSize: 9.sp,
+                //         color: HexColor('#004AAD'),
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
@@ -330,7 +336,8 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                       width: 6.w,
                     ),
                     Text(
-                      'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
+                      // 'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
+                      widget.courseDataModel.whatLearnInCourse,
                       style: TextStyle(
                         fontSize: 10.sp,
                         color: HexColor('#004AAD'),
@@ -338,29 +345,29 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 8.h,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.done_outlined,
-                      size: 10.h,
-                      color: HexColor('#004AAD'),
-                    ),
-                    SizedBox(
-                      width: 6.w,
-                    ),
-                    Text(
-                      'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
-                      style: TextStyle(
-                        fontSize: 9.sp,
-                        color: HexColor('#004AAD'),
-                      ),
-                    ),
-                  ],
-                ),
+                // SizedBox(
+                //   height: 8.h,
+                // ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Icon(
+                //       Icons.done_outlined,
+                //       size: 10.h,
+                //       color: HexColor('#004AAD'),
+                //     ),
+                //     SizedBox(
+                //       width: 6.w,
+                //     ),
+                //     Text(
+                //       'يحتفظ تطبيق وثاق بحقه في تجميد أي حساب أو حتى إيقافه بشكل\n دائم والذي يطبّق على حساب العميل بسبب استخدام غير قانوني أو\nغير مناسب لخدمات التطبيق',
+                //       style: TextStyle(
+                //         fontSize: 9.sp,
+                //         color: HexColor('#004AAD'),
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
@@ -422,7 +429,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            'قيد التنفيذ',
+                            widget.courseDataModel.hourNumber,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -456,7 +463,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            'أونلاين',
+                            widget.courseDataModel.courseDate,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -496,7 +503,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            'الثلاثاء 02/01/2022',
+                            widget.courseDataModel.courseType,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -530,7 +537,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                             ),
                           ),
                           child: Text(
-                            'الخميس 04/01/2022',
+                            widget.courseDataModel.courseTriner,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),
@@ -577,7 +584,8 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                   height: 12.h,
                 ),
                 Text(
-                  ' آن للصم العرب الذين يركبون سفينة الحياة منذ عقود وعقود بل منذ قرون\n وقرون .. وهم على ظهرها ركود..  وقد طال رسوها وسط بحرهم الصامت \nأن يتحركوا نحو شاطئ الأمل .. شاطئ الأمن والأمان .. حيث الأمل بكل ألوان \nالطيف في انتظارهم ترفعه أيديكم .. ترسمه أياديهم بلغة إشارية فصحى\n ترتشف من معين لغتنا العربية سر مبناها وسحر معناها\n تدهش العيون حركاتها . تتدفق إلى القلوب . تهز مشاعرهم . كما هزت لغة\n الكلام قلوبنا  .! منها ينهلون ما طاب لهم من العلم.. وبحروفها يكتبون ما \nشاء لهم من طيب الكلم ',
+                  // ' آن للصم العرب الذين يركبون سفينة الحياة منذ عقود وعقود بل منذ قرون\n وقرون .. وهم على ظهرها ركود..  وقد طال رسوها وسط بحرهم الصامت \nأن يتحركوا نحو شاطئ الأمل .. شاطئ الأمن والأمان .. حيث الأمل بكل ألوان \nالطيف في انتظارهم ترفعه أيديكم .. ترسمه أياديهم بلغة إشارية فصحى\n ترتشف من معين لغتنا العربية سر مبناها وسحر معناها\n تدهش العيون حركاتها . تتدفق إلى القلوب . تهز مشاعرهم . كما هزت لغة\n الكلام قلوبنا  .! منها ينهلون ما طاب لهم من العلم.. وبحروفها يكتبون ما \nشاء لهم من طيب الكلم ',
+                  widget.courseDataModel.trinerInfo,
                   style: TextStyle(
                     fontSize: 9.sp,
                     color: HexColor('#004AAD'),
@@ -631,7 +639,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen> {
                     ),
                   ),
                   child: Text(
-                    'https://www.google.com/',
+                    widget.courseDataModel.courseLink,
                     style: TextStyle(
                       fontSize: 10.sp,
                       color: HexColor('#004AAD'),

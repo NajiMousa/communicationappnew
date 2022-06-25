@@ -20,7 +20,7 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {Navigator.pop(context,'');},
           icon: Icon(
             Icons.arrow_back_ios,
             color: Colors.white,
@@ -62,7 +62,7 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen> {
                     ),
                   ),
                   child: Image.asset(
-                    'name',
+                    'images/termsAndConditions.png',
                   )),
               Container(
                 alignment: Alignment.center,

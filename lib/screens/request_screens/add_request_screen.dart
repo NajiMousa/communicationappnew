@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../controller/fb_store_controller.dart';
+import '../../controller/notification_controller.dart';
 import '../../helpers/helpers.dart';
 import '../../pref/shread_pref.dart';
 import '../nav_user_screens/main_screen.dart';
@@ -20,13 +21,13 @@ class AddRequestScreen extends StatefulWidget {
     Key? key,
     this.title = 'create',
     this.requestDataModel,
-    this.allUserDataModel,
+    required this.allUserDataModel,
     // required this.allUserDataModel,
   }) : super(key: key);
 
   final String title;
   final RequestDataModel? requestDataModel;
-  final AllUserDataModel? allUserDataModel;
+  final AllUserDataModel allUserDataModel;
 
   // final AllUserDataModel allUserDataModel;
 
@@ -58,7 +59,6 @@ class _AddRequestScreenState extends State<AddRequestScreen> with Helpers {
         text: widget.requestDataModel?.timeOfMeeting ?? '');
     shorTDescriptionTextController = TextEditingController(
         text: widget.requestDataModel?.shorTDescription ?? '');
-    print(';;;;;;;;;;;;;;;;;;;;');
     hoursNumberTextController = TextEditingController(
         text: widget.requestDataModel?.hour?? '');
   }
@@ -530,8 +530,17 @@ class _AddRequestScreenState extends State<AddRequestScreen> with Helpers {
     // print(locationTextController.text);
     // print('startProcessEndIf');
     if (status) {
+
+      // String token = NotificationController().getToken(widget.allUserDataModel.phone);
+      // print(token.toString());
+
+
+      NotificationController().sendPushMessage('لقد ارسل لك طلب جديد', 'طلب جديد', 'c1n_mQitQNqPbHWDABwl2f:APA91bErtzgs34yylebKfd03VOEqgcPUw1iR0J-0vznLXt1sCfVBCxt-UwOz2GBUNbanN-XHIFcSQWvKNzZxMgn_dfdL5wpdAqohYERjNY1tDu1KqDIClaOMMFSWy9vP4CuzMZSKR2lR', phone: widget.allUserDataModel.phone);
+
       print('startStatus');
-      if (SharedPrefController().typeUser == 'user') {
+      if (SharedPrefController().typeUser == 'user')
+      {
+
         print('user');
         Navigator.pushAndRemoveUntil(
           context,
@@ -542,6 +551,7 @@ class _AddRequestScreenState extends State<AddRequestScreen> with Helpers {
         print('other');
         Navigator.pushAndRemoveUntil(
           context,
+
           MaterialPageRoute(
               builder: (BuildContext context) => MainTranslatorScreen()),
           ModalRoute.withName('/'),
@@ -562,7 +572,7 @@ class _AddRequestScreenState extends State<AddRequestScreen> with Helpers {
     print('02');
     requestDataModel.location = locationTextController.text;
     print('03');
-    requestDataModel.timeOfMeeting = _time.toString();
+    requestDataModel.timeOfMeeting = _time.hour.toString() +':'+ _time.minute.toString();
     print('04');
     requestDataModel.shorTDescription = shorTDescriptionTextController.text;
     print('05');

@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:communication/model/all_user_data_model.dart';
+import 'package:communication/model/course_data_model.dart';
+import 'package:communication/model/evaluation_data_model.dart';
+import 'package:communication/model/job_data_model.dart';
 import 'package:communication/model/user_registeration_model.dart';
 
 import '../model/request_data_model.dart';
@@ -26,7 +29,41 @@ class FbStoreController {
   //   });
   // }
 
-  /// AllUserDataModel
+  // /// NotificationController
+  //
+  // Future<bool> createNotification(
+  //     {required EvaluationDataModel evaluationDataModel}) async {
+  //   print('createNotification');
+  //   return firebaseFirestore
+  //       .collection('TokenUser')
+  //       .doc(phone+'').set({
+  //     'tokenFilledUser' : tokenId;
+  //   });
+  // }
+  //
+  // Stream<QuerySnapshot> readEvaluation() async* {
+  //   print('read');
+  //   yield* firebaseFirestore.collection('evaluationDataModel').snapshots();
+  // }
+  //
+  /// EvaluationTranslator
+
+  Future<bool> createEvaluation(
+      {required EvaluationDataModel evaluationDataModel}) async {
+    print('createRequest');
+    return firebaseFirestore
+        .collection('evaluationDataModel')
+        .add(evaluationDataModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Stream<QuerySnapshot> readEvaluation() async* {
+    print('read');
+    yield* firebaseFirestore.collection('evaluationDataModel').snapshots();
+  }
+
+  /// Requests
 
   Future<bool> createRequest(
       {required RequestDataModel requestDataModel}) async {
@@ -115,6 +152,78 @@ class FbStoreController {
     final messages = await firebaseFirestore.collection("Users").get();
     List<UserRegisterationModel> list = messages.docs
         .map((e) => UserRegisterationModel.fromJson(e.data()))
+        .toList();
+    return list;
+  }
+
+  /// Job
+
+  Future<bool> createJob(
+      {required JobDataModel jobDataModel}) async {
+    print('createJob');
+    return firebaseFirestore
+        .collection('jobDataModel')
+        .add(jobDataModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Future<bool> updateJob(
+      {required JobDataModel jobDataModel}) async {
+    print('updateJob');
+    return firebaseFirestore
+        .collection('jobDataModel')
+        .doc(jobDataModel.id)
+        .update(jobDataModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Stream<QuerySnapshot> readJob() async* {
+    print('readJob');
+    yield* firebaseFirestore.collection('jobDataModel').snapshots();
+  }
+
+  Future<List<JobDataModel>> getJob() async {
+    final messages = await firebaseFirestore.collection("jobDataModel").get();
+    List<JobDataModel> list = messages.docs
+        .map((e) => JobDataModel.fromJson(e.data()))
+        .toList();
+    return list;
+  }
+
+  /// Course
+
+  Future<bool> createCourse(
+      {required CourseDataModel courseDataModel}) async {
+    print('createJob');
+    return firebaseFirestore
+        .collection('courseDataModel')
+        .add(courseDataModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Future<bool> updateCourse(
+      {required CourseDataModel courseDataModel}) async {
+    print('updateCourse');
+    return firebaseFirestore
+        .collection('courseDataModel')
+        .doc(courseDataModel.id)
+        .update(courseDataModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Stream<QuerySnapshot> readCourse() async* {
+    print('readJob');
+    yield* firebaseFirestore.collection('courseDataModel').snapshots();
+  }
+
+  Future<List<CourseDataModel>> getCourse() async {
+    final messages = await firebaseFirestore.collection("courseDataModel").get();
+    List<CourseDataModel> list = messages.docs
+        .map((e) => CourseDataModel.fromJson(e.data()))
         .toList();
     return list;
   }

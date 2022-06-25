@@ -1,20 +1,49 @@
-import 'package:communication/screens/tabbar_screen/learn_screens/book_screen.dart';
-import 'package:communication/screens/tabbar_screen/learn_screens/course_screen.dart';
-import 'package:communication/screens/widgets/job_widget.dart';
-import 'package:communication/screens/widgets/request_widget.dart';
+
+import 'package:communication/controller/fb_store_controller.dart';
+import 'package:communication/model/evaluation_data_model.dart';
+import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../helpers/helpers.dart';
+import '../../model/request_data_model.dart';
+
 class EvaluationPersonScreen extends StatefulWidget {
-  const EvaluationPersonScreen({Key? key}) : super(key: key);
+   EvaluationPersonScreen({Key? key, required this.requestDataModel}) : super(key: key);
+
+   RequestDataModel requestDataModel;
 
   @override
   _EvaluationPersonScreenState createState() => _EvaluationPersonScreenState();
+
 }
 
-class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> {
+class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> with Helpers {
+
+  double exteriorStar = 1;
+  double dateStar = 1;
+  double skillsStar = 1;
+  double dealStar = 1;
+  int avg = 0;
+  bool status = false;
+  late TextEditingController shorTDescriptionTextController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    shorTDescriptionTextController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    shorTDescriptionTextController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +58,7 @@ class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> {
         ),
         backgroundColor: HexColor('#004AAD'),
         title: Text(
-          'من نحن',
+          'التقييم',
           style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.bold,
@@ -109,7 +138,8 @@ class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'ليلى المنصور',
+                              // 'ليلى المنصور',
+                              widget.requestDataModel.translaterName,
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: HexColor('#004AAD'),
@@ -117,7 +147,8 @@ class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> {
                               ),
                             ),
                             Text(
-                              'ana.ana@gmail.com',
+                              // 'ana.ana@gmail.com',
+                              widget.requestDataModel.phoneTranslater,
                               style: TextStyle(
                                 fontSize: 10.sp,
                                 color: HexColor('#004AAD'),
@@ -191,24 +222,25 @@ class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> {
                       ),
                     ),
                     Spacer(),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 33.w,
-                      height: 22.h,
-                      decoration: BoxDecoration(
-                        color: HexColor('#F1C40F'),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      child: Text(
-                        '4.1',
-                        style: TextStyle(
-                          fontSize: 10.sp,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    FFStars(
+                      normalStar: Image.asset("images/25533.jpg"),
+                      selectedStar: Image.asset("images/v978-14.jpg"),
+                      starsChanged: (realStars, selectedStars) {
+                        print("real: $selectedStars, final: $realStars");
+                        setState(() {
+                          exteriorStar = realStars;
+                        });
+                      },
+                      step: 0.1,
+                      defaultStars: 0.5,
+                      starCount: 5,
+                      starHeight: 22.h,
+                      starWidth: 22.w,
+                      starMargin: 5,
+                      // justShow: true,
+                      // rounded: true,
+                      // followChange: true,
+                    )
                   ],
                 ),
                 SizedBox(
@@ -235,24 +267,25 @@ class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> {
                       ),
                     ),
                     Spacer(),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 33.w,
-                      height: 22.h,
-                      decoration: BoxDecoration(
-                        color: HexColor('#F1C40F'),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      child: Text(
-                        '4.1',
-                        style: TextStyle(
-                          fontSize: 10.sp,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    FFStars(
+                      normalStar: Image.asset("images/25533.jpg"),
+                      selectedStar: Image.asset("images/v978-14.jpg"),
+                      starsChanged: (realStars, selectedStars) {
+                        print("real: $selectedStars, final: $realStars");
+                        setState(() {
+                          dateStar = realStars;
+                        });
+                      },
+                      step: 0.1,
+                      defaultStars: 0.5,
+                      starCount:5,
+                      starHeight: 22.h,
+                      starWidth: 22.w,
+                      starMargin: 5,
+                      // justShow: true,
+                      // rounded: true,
+                      // followChange: true,
+                    )
                   ],
                 ),
                 SizedBox(
@@ -279,24 +312,25 @@ class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> {
                       ),
                     ),
                     Spacer(),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 33.w,
-                      height: 22.h,
-                      decoration: BoxDecoration(
-                        color: HexColor('#F1C40F'),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      child: Text(
-                        '4.1',
-                        style: TextStyle(
-                          fontSize: 10.sp,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    FFStars(
+                      normalStar: Image.asset("images/25533.jpg"),
+                      selectedStar: Image.asset("images/v978-14.jpg"),
+                      starsChanged: (realStars, selectedStars) {
+                        print("real: $selectedStars, final: $realStars");
+                        setState(() {
+                          skillsStar = realStars;
+                        });
+                      },
+                      step: 0.1,
+                      defaultStars: 0.5,
+                      starCount: 5,
+                      starHeight: 22.h,
+                      starWidth: 22.w,
+                      starMargin: 5,
+                      // justShow: true,
+                      // rounded: true,
+                      // followChange: true,
+                    )
                   ],
                 ),
                 SizedBox(
@@ -323,24 +357,25 @@ class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> {
                       ),
                     ),
                     Spacer(),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 33.w,
-                      height: 22.h,
-                      decoration: BoxDecoration(
-                        color: HexColor('#F1C40F'),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      child: Text(
-                        '4.1',
-                        style: TextStyle(
-                          fontSize: 10.sp,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    FFStars(
+                      normalStar: Image.asset("images/25533.jpg"),
+                      selectedStar: Image.asset("images/v978-14.jpg"),
+                      starsChanged: (realStars, selectedStars) {
+                        print("real: $selectedStars, final: $realStars");
+                        setState(() {
+                          dealStar = realStars;
+                        });
+                      },
+                      step: 0.1,
+                      defaultStars: 0.5,
+                      starCount: 5,
+                      starHeight: 22.h,
+                      starWidth: 22.w,
+                      starMargin: 5,
+                      // justShow: true,
+                      // rounded: true,
+                      // followChange: true,
+                    )
                   ],
                 ),
               ],
@@ -375,6 +410,7 @@ class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> {
                   height: 12.h,
                 ),
                 TextField(
+                  controller: shorTDescriptionTextController,
                   decoration: InputDecoration(
                     fillColor: Colors.white,
                     focusedBorder: OutlineInputBorder(
@@ -399,7 +435,10 @@ class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                     process();
+                     Navigator.pushNamed(context,'/main_screen');
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -427,5 +466,86 @@ class _EvaluationPersonScreenState extends State<EvaluationPersonScreen> {
         ],
       ),
     );
+  }
+  void performProcess() async {
+    print('startPerformProcess');
+    if (checkData()) {
+      process();
+    }
+  }
+
+  bool checkData() {
+    print('startCheckData');
+    if (shorTDescriptionTextController.text.isNotEmpty) {
+      print('startCheckDataTrue');
+      return true;
+    }
+    showSnackBar(context: context, message: 'Enter required Data', error: true);
+    print('startCheckDataFalse');
+    return false;
+  }
+
+  void process() async {
+    avg = (dateStar+skillsStar+dealStar+exteriorStar)~/4;
+    await FbStoreController().createEvaluation(evaluationDataModel: evaluationDataModelMethod);
+    await FbStoreController().updateRequest(requestDataModel: requestDataModelA);
+    status = true;
+  }
+
+  EvaluationDataModel get evaluationDataModelMethod{
+    EvaluationDataModel evaluationDataModel = EvaluationDataModel();
+    evaluationDataModel.phoneTranslater = widget.requestDataModel.phoneTranslater;
+    evaluationDataModel.translaterName = widget.requestDataModel.translaterName;
+    evaluationDataModel.userName = widget.requestDataModel.userName;
+    evaluationDataModel.phoneUser = widget.requestDataModel.phoneUser;
+    evaluationDataModel.dateOfCreate = widget.requestDataModel.dateOfCreate;
+    evaluationDataModel.shorTDescription = shorTDescriptionTextController.text;
+    evaluationDataModel.dateStar = dateStar.toString();
+    evaluationDataModel.skillsStar = skillsStar.toString();
+    evaluationDataModel.dealStar = dealStar.toString();
+    evaluationDataModel.exteriorStar = exteriorStar.toString();
+    evaluationDataModel.allEvaluation = avg.toString();
+    return evaluationDataModel;
+  }
+  RequestDataModel get requestDataModelA {
+    print('startGet');
+    RequestDataModel requestDataModelA = RequestDataModel();
+    print('01');
+    requestDataModelA.id = widget.requestDataModel.id;
+    print('02');
+    requestDataModelA.location = widget.requestDataModel.location;
+    print('03');
+    requestDataModelA.timeOfMeeting = widget.requestDataModel.timeOfMeeting;
+    print('04');
+    requestDataModelA.shorTDescription =
+        widget.requestDataModel.shorTDescription;
+    print('05');
+    requestDataModelA.dateOfMeeting = widget.requestDataModel.dateOfMeeting;
+    print('06');
+    print('selected');
+    // print(selected);
+    requestDataModelA.requestStatus ='ending';
+    print('07');
+    requestDataModelA.phoneTranslater = widget.requestDataModel.phoneTranslater;
+    print('08');
+    requestDataModelA.dateOfCreate = widget.requestDataModel.dateOfCreate;
+    print('09');
+    requestDataModelA.latitude = widget.requestDataModel.latitude;
+    print('10');
+    requestDataModelA.longtude = widget.requestDataModel.longtude;
+    print('11');
+    requestDataModelA.phoneUser = widget.requestDataModel.phoneUser;
+    print('12');
+    requestDataModelA.translaterName = widget.requestDataModel.translaterName;
+    print('13');
+    requestDataModelA.userName = widget.requestDataModel.userName;
+    print('14');
+    print(widget.requestDataModel.hour.toString());
+    requestDataModelA.hour = widget.requestDataModel.hour.toString();
+    print('15');
+    print('endGet');
+    print(requestDataModelA);
+    print(requestDataModelA.requestStatus);
+    return requestDataModelA;
   }
 }

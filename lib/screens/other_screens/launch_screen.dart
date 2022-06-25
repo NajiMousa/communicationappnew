@@ -25,7 +25,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
     //     ? Future.delayed(const Duration(seconds: 3), () {
     //         Navigator.pushReplacementNamed(context, '/onboarding_first_screen');
     //       })
-    String User = SharedPrefController().typeUser == 'user'? '/main_screen': '/main_translator_screen';
+    String User = SharedPrefController().typeUser == 'user'? '/main_screen': SharedPrefController().typeUser == 'admin'? '/admin_action_screen' :'/main_translator_screen';
     Future.delayed(const Duration(seconds: 3), () {
       print(!SharedPrefController().loggedIn);
             String route = SharedPrefController().loggedIn

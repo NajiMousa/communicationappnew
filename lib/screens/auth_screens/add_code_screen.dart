@@ -1,4 +1,5 @@
 import 'package:communication/controller/fb_store_controller.dart';
+import 'package:communication/controller/notification_controller.dart';
 import 'package:communication/model/user_registeration_model.dart';
 import 'package:communication/pref/shread_pref.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../../helpers/helpers.dart';
+import '../admin/admin_actine_screen.dart';
 import '../nav_user_screens/main_screen.dart';
 import '../translator_screens/nav_translator_screens/main_translator_screen.dart';
 
@@ -281,6 +283,8 @@ class _AddCodeScreenState extends State<AddCodeScreen> with Helpers {
             phone: widget.userRegisterationModel.phone,
             typeUser: widget.userRegisterationModel.userType);
 
+        await NotificationController().saveToken(SharedPrefController().phone);
+
         print('if user');
         // if (widget.signOrLogin) {
         //   FbStoreController()
@@ -294,8 +298,17 @@ class _AddCodeScreenState extends State<AddCodeScreen> with Helpers {
             MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
             ModalRoute.withName('/'),
           );
-        } else {
-          print('other');
+        }
+        else if (widget.userRegisterationModel.userType == 'admin') {
+          print('user');
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (BuildContext context) => AdminActionScreen()),
+            ModalRoute.withName('/'),
+          );
+        }
+        else if (widget.userRegisterationModel.userType == 'translate'){
+          print('translate');
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(

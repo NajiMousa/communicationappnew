@@ -20,7 +20,7 @@ class _HelpFaqsScreenState extends State<HelpFaqsScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {Navigator.pop(context);},
           icon: Icon(
             Icons.arrow_back_ios,
             color: Colors.white,
@@ -62,7 +62,7 @@ class _HelpFaqsScreenState extends State<HelpFaqsScreen> {
                     ),
                   ),
                   child: Image.asset(
-                    'name',
+                    'images/helpAndFaqs.png',
                   )),
               Container(
                 alignment: Alignment.center,

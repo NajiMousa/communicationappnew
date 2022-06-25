@@ -99,7 +99,9 @@ class _MainScreenState extends State<MainScreen> {
               ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/nafication_screen');
+            },
             icon: Icon(
               Icons.notifications_rounded,
               color: HexColor('#FAFBFD'),
@@ -161,7 +163,7 @@ class _MainScreenState extends State<MainScreen> {
                   // ?  RequestTranslatorScreen(allUserDataModel: userList,requestDataModel: allRequestDataModel,)
                   ?  RequestScreen()
                   : cruuentPageIndex == 3
-                      ? const JobScreen()
+                      ?  JobScreen()
                       : const SettingsScreen(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: HexColor('#004AAD'),

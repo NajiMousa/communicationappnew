@@ -1,7 +1,3 @@
-import 'package:communication/screens/tabbar_screen/learn_screens/book_screen.dart';
-import 'package:communication/screens/tabbar_screen/learn_screens/course_screen.dart';
-import 'package:communication/screens/widgets/job_widget.dart';
-import 'package:communication/screens/widgets/request_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

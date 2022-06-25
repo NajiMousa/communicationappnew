@@ -1,5 +1,7 @@
 
 import 'package:communication/pref/shread_pref.dart';
+import 'package:communication/screens/admin/add_course_screen.dart';
+import 'package:communication/screens/admin/admin_actine_screen.dart';
 import 'package:communication/screens/auth_screens/add_code_screen.dart';
 import 'package:communication/screens/auth_screens/all_widget.dart';
 import 'package:communication/screens/auth_screens/create_account_screen.dart';
@@ -33,6 +35,7 @@ import 'package:communication/screens/auth_screens/login_screen.dart';
 import 'package:communication/screens/settings_screens/privacy_policy_screen.dart';
 import 'package:communication/screens/settings_screens/terms_conditions_screen.dart';
 import 'package:communication/screens/tabbar_screen/profile_screens/my_evaluation_screen.dart';
+import 'package:communication/screens/admin/add_job_screen.dart';
 import 'package:communication/screens/user_profile_screens/edit_profile_user_screen.dart';
 import 'package:communication/screens/user_profile_screens/evaluation_person_screen.dart';
 import 'package:communication/screens/other_screens/launch_screen.dart';
@@ -43,17 +46,57 @@ import 'package:communication/screens/tabbar_screen/learn_screens/course_screen.
 import 'package:communication/screens/user_profile_screens/translator_profile_screen.dart';
 import 'package:communication/screens/user_profile_screens/user_profile_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
+// import 'firebase_options.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'controller/notification_controller.dart';
+import 'firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   await SharedPrefController().initSharedPref();
-  runApp(const MyApp());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  notificationSetting();
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
+  //
+  // NotificationSettings settings = await messaging.requestPermission(
+  //   alert: true,
+  //   announcement: false,
+  //   badge: true,
+  //   carPlay: false,
+  //   criticalAlert: false,
+  //   provisional: false,
+  //   sound: true,
+  // );
+  //
+  // print('User granted permission: ${settings.authorizationStatus}');
+  //
+  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //   print('Got a message whilst in the foreground!');
+  //   print('Message data: ${message.data}');
+  //
+  //   if (message.notification != null) {
+  //     print('Message also contained a notification: ${message.notification}');
+  //   }
+  // });
+
+  // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  //   // If you're going to use other Firebase services in the background, such as Firestore,
+  //   // make sure you call `initializeApp` before using other Firebase services.
+  //   await Firebase.initializeApp();
+  //
+  //   print("Handling a background message: ${message.messageId}");
+  // }
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -83,7 +126,7 @@ class MyApp extends StatelessWidget {
               // '/request_screen' : (context) => RequestScreen(),
               '/settings_screen' : (context) => SettingsScreen(),
               // '/request_details_screen' : (context) => RequestDetailsScreen(),
-              '/evaluation_person_screen' : (context) => EvaluationPersonScreen(),
+              // '/evaluation_person_screen' : (context) => EvaluationPersonScreen(),
               // '/user_profile_screen' : (context) => UserProfileScreen(),
               // '/edit_profile_user_screen' : (context) => EditProfileUserScreen(),
               '/about_us_screen' : (context) => AboutUsScreen(),
@@ -105,14 +148,17 @@ class MyApp extends StatelessWidget {
               '/blog_info_screen' : (context) => BlogInfoScreen(),
               '/translator_profile_screen' : (context) => TranslatorProfileScreen(),
               '/my_evaluation_screen' : (context) => MyEvaluationScreen(),
-              '/job_info_screen' : (context) => JobInfoScreen(),
-              '/course_info_screen' : (context) => CourseInfoScreen(),
+              // '/job_info_screen' : (context) => JobInfoScreen(),
+              // '/course_info_screen' : (context) => CourseInfoScreen(),
               '/onboarding_first_screen' : (context) => OnBoardingFirstScreen(),
               '/onboarding_second_screen' : (context) => OnBoardingSecondScreen(),
               '/onboarding_third_screen' : (context) => OnBoardingThirdScreen(),
               '/main_screen' : (context) => MainScreen(),
               '/main_translator_screen' : (context) => MainTranslatorScreen(),
               '/map_screen' : (context) => MapScreen(),
+              '/admin_action_screen' : (context) => AdminActionScreen(),
+              '/add_job_screen' : (context) => AddJobScreen(),
+              '/add_course_screen' : (context) => AddCourseScreen(),
               // '/main_map_screen' : (context) => MainMapScreen(),
 
             },
@@ -136,4 +182,11 @@ class MyApp extends StatelessWidget {
           ),
     );
   }
+}
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
 }

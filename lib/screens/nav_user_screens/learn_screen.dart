@@ -32,7 +32,7 @@ class _LearnScreenState extends State<LearnScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(top: 20.h),
-                  width: 158.h,
+                  width: 142.h,
                   height: 40.h,
                   alignment: AlignmentDirectional.center,
                   decoration: BoxDecoration(
@@ -63,7 +63,7 @@ class _LearnScreenState extends State<LearnScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(top: 20.h),
-                  width: 158.h,
+                  width: 142.h,
                   height: 40.h,
                   alignment: AlignmentDirectional.center,
                   decoration: BoxDecoration(

@@ -69,7 +69,9 @@ class _MainTranslatorScreenState extends State<MainTranslatorScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/nafication_screen');
+            },
             icon: Icon(
               Icons.notifications_rounded,
               color: HexColor('#FAFBFD'),

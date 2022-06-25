@@ -50,6 +50,13 @@ dependencies:
   get: ^4.6.1
   firebase_storage: ^10.2.13
   provider: ^4.1.2
+  ff_stars: ^1.0.0
+  firebase_messaging: ^11.4.1
+  overlay_support: ^2.0.1
+  flutter_local_notifications: ^9.6.0
+  flutterfire_cli: ^0.2.2+2
+  http: ^0.13.4
+
 
 
 

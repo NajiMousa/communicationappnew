@@ -2,7 +2,9 @@
 // import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:communication/pref/shread_pref.dart';
+import 'package:communication/screens/nav_user_screens/job_screen.dart';
 import 'package:communication/screens/nav_user_screens/main_screen.dart';
 import 'package:communication/screens/user_profile_screens/user_profile_screen.dart';
 import 'package:communication/screens/widgets/course_widget.dart';
@@ -15,7 +17,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../controller/fb_storage_controller.dart';
 import '../../controller/fb_store_controller.dart';
+import '../../controller/notification_controller.dart';
 import '../../model/all_user_data_model.dart';
+import '../../model/course_data_model.dart';
+import '../../model/job_data_model.dart';
 import '../user_profile_screens/edit_profile_user_screen.dart';
 import 'main_map_screen.dart';
 
@@ -33,11 +38,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   // String fullName = '';
+  List<JobDataModel> listJob = [];
+  List<CourseDataModel> listCourse = [];
   @override
   void initState() {
     // TODO: implement initState
     // fullName = widget.allUserDataModel.fullName;
     // print(widget.allUserDataModel.fullName);
+    getData();
+    print('listCourse.length');
+    print(listCourse.length);
+    print('listJob.length');
+    print(listJob.length);
     print(SharedPrefController().name);
     super.initState();
 
@@ -241,6 +253,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           MainMapScreen(listAllUserData: widget.listAllUserData, listLatLng: widget.listLatLng),
                     ),
                   ),
+                  // onPressed: () => NotificationController.showNotification(
+                  //     title: 'naji',
+                  //     body: 'Hello Naji',
+                  //     payload: 'naji.abs'
+                  // ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -355,7 +372,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: 12.h,
                 ),
-                CouurseWidget(),
+                // FutureBuilder<List<CourseDataModel>>(
+                //   future: FbStoreController().getCourse(),
+                //   builder: (context, snapshot) {
+                //   if(snapshot.hasData){
+                //     if(snapshot.data!.isNotEmpty){
+                //       return CouurseWidget(courseDataModel: listCourse[0],);
+                //     }
+                //     else{
+                //       return Center(
+                //         child: Text(
+                //           "لا يوجد دورات حتى الان",
+                //           style: TextStyle(color: Colors.black, fontSize: 20.sp),
+                //         ),
+                //       );
+                //     }
+                //   } else{
+                //     return Center(
+                //       child: CircularProgressIndicator(),
+                //     );
+                //   }
+                // },),
+                // CouurseWidget(courseDataModel: listCourse[0],),
                 SizedBox(
                   height: 24.h,
                 ),
@@ -390,17 +428,90 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 12.h,
-                ),
-                JobWidget(),
+                  height: 12.h,),
+                // FutureBuilder<List<CourseDataModel>>(
+                //   future: FbStoreController().getCourse(),
+                //   builder: (context, snapshot) {
+                //     if(snapshot.hasData){
+                //       if(snapshot.data!.isNotEmpty){
+                //         return JobWidget(jobDataModel: listJob[0]);
+                //       }
+                //       else{
+                //         return Center(
+                //           child: Text(
+                //             "لا يوجد وظائف حتى الان",
+                //             style: TextStyle(color: Colors.black, fontSize: 20.sp),
+                //           ),
+                //         );
+                //       }
+                //     } else{
+                //       return Center(
+                //         child: CircularProgressIndicator(),
+                //       );
+                //     }
+                //   },),
+                  // JobWidget(jobDataModel: listJob[0]),
                 SizedBox(
                   height: 30.h,
                 )
               ],
             ),
           ),
+
         ],
       ),
     );
+  }
+
+  CourseDataModel mapCourseDataModelMethod(
+      QueryDocumentSnapshot documentSnapshot) {
+    CourseDataModel courseDataModel = CourseDataModel();
+    courseDataModel.id = documentSnapshot['id'];
+    courseDataModel.courseName = documentSnapshot['courseName'];
+    courseDataModel.hourNumber = documentSnapshot['hourNumber'];
+    courseDataModel.userLike = documentSnapshot['userLike'];
+    courseDataModel.courseStatus = documentSnapshot['courseStatus'];
+    courseDataModel.location = documentSnapshot['location'];
+    courseDataModel.addDate = documentSnapshot['addDate'];
+    courseDataModel.courseInfo = documentSnapshot['courseInfo'];
+    courseDataModel.courseContent = documentSnapshot['courseContent'];
+    courseDataModel.whatLearnInCourse = documentSnapshot['whatLearnInCourse'];
+    courseDataModel.courseDate = documentSnapshot['courseDate'];
+    courseDataModel.courseType = documentSnapshot['courseType'];
+    courseDataModel.courseTriner = documentSnapshot['courseTriner'];
+    courseDataModel.trinerInfo = documentSnapshot['trinerInfo'];
+    courseDataModel.courseLink = documentSnapshot['courseLink'];
+    return courseDataModel;
+  }
+
+  JobDataModel mapJobDataModel(QueryDocumentSnapshot documentSnapshot) {
+    // عشان ناخذ البيانات نعرضها من اجل التحديث عليها
+    JobDataModel requestDataModel = JobDataModel();
+    requestDataModel.id = documentSnapshot.id;
+    requestDataModel.jobName = documentSnapshot.get('jobName');
+    requestDataModel.expertiseYear = documentSnapshot.get('expertiseYear');
+    requestDataModel.jobStatus = documentSnapshot.get('jobStatus');
+    requestDataModel.location = documentSnapshot.get('location');
+    requestDataModel.addDate = documentSnapshot.get('addDate');
+    requestDataModel.tasks = documentSnapshot.get('tasks');
+    requestDataModel.conditions = documentSnapshot.get('conditions');
+    requestDataModel.jobTitle = documentSnapshot.get('jobTitle');
+    requestDataModel.lastDate = documentSnapshot.get('lastDate');
+    requestDataModel.jobType = documentSnapshot.get('jobType');
+    requestDataModel.level = documentSnapshot.get('level');
+    requestDataModel.salary = documentSnapshot.get('salary');
+    requestDataModel.degree = documentSnapshot.get('degree');
+    requestDataModel.jobLink = documentSnapshot.get('jobLink');
+    return requestDataModel;
+  }
+
+  void getData() async{
+    print('startGetData');
+    listJob = await FbStoreController().getJob();
+    print('listJob.length');
+    print(listJob.length);
+    listCourse = await FbStoreController().getCourse();
+    print('listCourse.length');
+    print(listCourse.length);
   }
 }

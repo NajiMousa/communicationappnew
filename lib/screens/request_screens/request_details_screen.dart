@@ -1,5 +1,5 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:communication/model/all_user_data_model.dart';
 import 'package:communication/screens/nav_user_screens/map_screen.dart';
 import 'package:communication/screens/request_screens/add_request_screen.dart';
 import 'package:communication/screens/tabbar_screen/learn_screens/book_screen.dart';
@@ -14,6 +14,7 @@ import 'package:hexcolor/hexcolor.dart';
 import '../../controller/fb_store_controller.dart';
 import '../../model/request_data_model.dart';
 import '../../pref/shread_pref.dart';
+import '../user_profile_screens/evaluation_person_screen.dart';
 
 class RequestDetailsScreen extends StatefulWidget {
   RequestDetailsScreen({Key? key, required this.requestDataModel})
@@ -610,6 +611,7 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 AddRequestScreen(
+                                                  allUserDataModel: AllUserDataModel(),
                                                     title: 'update',
                                                     requestDataModel: widget
                                                         .requestDataModel),
@@ -1127,7 +1129,22 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen> {
                                                       BorderRadius.circular(15),
                                                 ),
                                               ),
-                                              onPressed: () async {},
+                                              onPressed: () {
+                                                var reselt = Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EvaluationPersonScreen(
+                                                              requestDataModel:
+                                                                  widget
+                                                                      .requestDataModel),
+                                                    ));
+
+                                                print('reselt');
+                                                print(reselt);
+                                                print(
+                                                    'fffffffffffffffffffffffffffffffffff');
+                                              },
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -1152,7 +1169,12 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen> {
                                               ),
                                             ),
                                     ])
-                                  : SizedBox())
+                                  : status == 'ending'
+                                      ? Center(
+                                        child: Text(
+                                            'تم الانتهاء من هذا الطلب و تقييم المترجم من قبل العميل'),
+                                      )
+                                      : SizedBox())
         ],
       ),
     );

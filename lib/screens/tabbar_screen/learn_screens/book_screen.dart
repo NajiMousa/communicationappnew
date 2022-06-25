@@ -11,138 +11,171 @@ class BookScreen extends StatefulWidget {
 
 class _BookScreenState extends State<BookScreen> {
 
-  int filterSelected = 0;
+  int selected = 0;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
         children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: 60.h,
-              minWidth: double.infinity,
-            ),
-            child: ListView(
-              padding: EdgeInsets.only(right: 30.w,bottom: 24.h),
-              scrollDirection: Axis.horizontal,
-              children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      filterSelected = 0;
-                    });
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    // height: 35.h,
-                    alignment: AlignmentDirectional.center,
-                    decoration: BoxDecoration(
-                      color: filterSelected == 0 ? HexColor('#004AAD') : Colors.white,
-                      border: Border.all(
+          Padding(
+            padding: EdgeInsets.only(right: 30.w),
+            child: ConstrainedBox(
+              constraints:
+              BoxConstraints(maxHeight: 35.h, minWidth: double.infinity),
+              child: GridView(
+                scrollDirection: Axis.horizontal,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  mainAxisSpacing: 12.w,
+                  childAspectRatio: 35 / 75,
+                ),
+                children: [
+                  InkWell(
+                    onTap: () => setState(() {
+                      selected = 0;
+                    }),
+                    child: Container(
+                      alignment: AlignmentDirectional.center,
+                      decoration: selected == 0
+                          ? BoxDecoration(
                         color: HexColor('#004AAD'),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      )
+                          : BoxDecoration(
+                        border: Border.all(
+                          color: HexColor('#004AAD'),
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
                       ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(25),
-                      ),
-                    ),
-                    child: Text(
-                      'الحروف',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: filterSelected == 0 ?  Colors.white :HexColor('#004AAD'),
+                      child: Text(
+                        'الحروف',
+                        style: selected == 0
+                            ? TextStyle(
+                          fontSize: 12.sp,
+                          color: HexColor('#FAFBFD'),
+                        )
+                            : TextStyle(
+                          fontSize: 12.sp,
+                          color: HexColor('#004AAD'),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 15.h,),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      filterSelected = 1;
-                    });
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    alignment: AlignmentDirectional.center,
-                    decoration: BoxDecoration(
-                      color: filterSelected == 1 ? HexColor('#004AAD') : Colors.white,
-                      border: Border.all(
+                  InkWell(
+                    onTap: () => setState(() {
+                      selected = 1;
+                    }),
+                    child: Container(
+                      alignment: AlignmentDirectional.center,
+                      decoration: selected == 1
+                          ? BoxDecoration(
                         color: HexColor('#004AAD'),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      )
+                          : BoxDecoration(
+                        border: Border.all(
+                          color: HexColor('#004AAD'),
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
                       ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(25),
-                      ),
-                    ),
-                    child: Text(
-                      'الارقام',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: filterSelected == 1 ?  Colors.white :HexColor('#004AAD'),
+                      child: Text(
+                        'الأرقام',
+                        style: selected == 1
+                            ? TextStyle(
+                          fontSize: 12.sp,
+                          color: HexColor('#FAFBFD'),
+                        )
+                            : TextStyle(
+                          fontSize: 12.sp,
+                          color: HexColor('#004AAD'),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 15.h,),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      filterSelected = 2;
-                    });
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    alignment: AlignmentDirectional.center,
-                    decoration: BoxDecoration(
-                      color: filterSelected == 2 ? HexColor('#004AAD') : Colors.white,
-                      border: Border.all(
+                  InkWell(
+                    onTap: () => setState(() {
+                      selected = 2;
+                    }),
+                    child: Container(
+                      alignment: AlignmentDirectional.center,
+                      decoration: selected == 2
+                          ? BoxDecoration(
                         color: HexColor('#004AAD'),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      )
+                          : BoxDecoration(
+                        border: Border.all(
+                          color: HexColor('#004AAD'),
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
                       ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(25),
-                      ),
-                    ),
-                    child: Text(
-                      'الحيوانات',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: filterSelected == 2 ?  Colors.white :HexColor('#004AAD'),
+                      child: Text(
+                        'الحيوانات',
+                        style: selected == 2
+                            ? TextStyle(
+                          fontSize: 12.sp,
+                          color: HexColor('#FAFBFD'),
+                        )
+                            : TextStyle(
+                          fontSize: 12.sp,
+                          color: HexColor('#004AAD'),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 15.h,),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      filterSelected = 3;
-                    });
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    alignment: AlignmentDirectional.center,
-                    decoration: BoxDecoration(
-                      color: filterSelected == 3 ? HexColor('#004AAD') : Colors.white,
-                      border: Border.all(
+                  InkWell(
+                    onTap: () => setState(() {
+                      selected = 3;
+                    }),
+                    child: Container(
+                      alignment: AlignmentDirectional.center,
+                      decoration: selected == 3
+                          ? BoxDecoration(
                         color: HexColor('#004AAD'),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      )
+                          : BoxDecoration(
+                        border: Border.all(
+                          color: HexColor('#004AAD'),
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
                       ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(25),
-                      ),
-                    ),
-                    child: Text(
-                      'الحركات',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: filterSelected == 3 ?  Colors.white :HexColor('#004AAD'),
+                      child: Text(
+                        'الحركات',
+                        style: selected == 3
+                            ? TextStyle(
+                          fontSize: 12.sp,
+                          color: HexColor('#FAFBFD'),
+                        )
+                            : TextStyle(
+                          fontSize: 12.sp,
+                          color: HexColor('#004AAD'),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 15.h,),
-              ],
+                ],
+              ),
             ),
           ),
+          SizedBox(height: 15.h,),
           Expanded(
             child: ListView.builder(
               itemCount: 5,

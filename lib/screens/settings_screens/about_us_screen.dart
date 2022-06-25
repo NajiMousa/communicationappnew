@@ -20,7 +20,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Icon(
             Icons.arrow_back_ios,
             color: Colors.white,
@@ -62,7 +64,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                     ),
                   ),
                   child: Image.asset(
-                    'name',
+                    'images/aboutUs.png',
                   )),
               Container(
                 alignment: Alignment.center,

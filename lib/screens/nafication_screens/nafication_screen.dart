@@ -1,13 +1,12 @@
-import 'dart:ui';
-
-import 'package:communication/screens/tabbar_screen/learn_screens/book_screen.dart';
-import 'package:communication/screens/tabbar_screen/learn_screens/course_screen.dart';
-import 'package:communication/screens/widgets/job_widget.dart';
-import 'package:communication/screens/widgets/request_widget.dart';
+import 'package:communication/controller/notification_controller.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import '../../main.dart';
 
 class NaficationScreen extends StatefulWidget {
   const NaficationScreen({Key? key}) : super(key: key);
@@ -17,12 +16,42 @@ class NaficationScreen extends StatefulWidget {
 }
 
 class _NaficationScreenState extends State<NaficationScreen> {
+
+  String notificationTitle = "no title";
+  String notificationBody = "no body";
+  String notificationData = "no data";
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    final firebaseMessage = NotificationController();
+
+
+
+    // firebaseMessage.setNotification();
+    // firebaseMessage.streamCtrl.stream.listen(_changeData);
+    // firebaseMessage.titleCtrl.stream.listen(_changeTitle);
+    // firebaseMessage.bodyCtrl.stream.listen(_changeBody);
+
+    super.initState();
+  }
+
+  // _changeData(String message) => setState(() => notificationData = message);
+  //
+  // _changeTitle(String message) => setState(() => notificationTitle = message);
+  //
+  // _changeBody(String message) => setState(() => notificationBody = message);
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Icon(
             Icons.arrow_back_ios,
             color: Colors.white,
@@ -70,7 +99,7 @@ class _NaficationScreenState extends State<NaficationScreen> {
                   ),
                 ),
                 child: ListView.builder(
-                  itemCount: 15,
+                  itemCount: 8,
                   itemBuilder: (context, index) {
                     return Container(
                       padding: EdgeInsets.only(
@@ -112,7 +141,16 @@ class _NaficationScreenState extends State<NaficationScreen> {
                             width: 4.w,
                           ),
                           Text(
-                            'قام بقبول طلبك في الموعد الذي طلبته',
+                            // 'قام بقبول طلبك في الموعد الذي طلبته',
+                            notificationTitle,
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                              color: HexColor('#004AAD'),
+                            ),
+                          ),
+                          Text(
+                            // 'قام بقبول طلبك في الموعد الذي طلبته',
+                            notificationBody,
                             style: TextStyle(
                               fontSize: 10.sp,
                               color: HexColor('#004AAD'),

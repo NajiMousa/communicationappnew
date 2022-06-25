@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:communication/model/course_data_model.dart';
+import 'package:communication/screens/display/course_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class CouurseWidget extends StatefulWidget {
-  const CouurseWidget({Key? key}) : super(key: key);
+  CouurseWidget({Key? key ,required this.courseDataModel}) : super(key: key);
+
+  CourseDataModel courseDataModel;
 
   @override
   _CouurseWidgetState createState() => _CouurseWidgetState();
@@ -15,9 +20,13 @@ class _CouurseWidgetState extends State<CouurseWidget> {
     return Column(
       children: [
         InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, '/course_info_screen');
-          },
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CourseInfoScreen(
+                  courseDataModel: widget.courseDataModel,),
+            ),
+          ),
           child: Stack(
             children: [
               Container(
@@ -56,7 +65,7 @@ class _CouurseWidgetState extends State<CouurseWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'لغة الإشارة و اساليبها',
+                             widget.courseDataModel.courseName,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: HexColor('#004AAD'),
@@ -66,7 +75,7 @@ class _CouurseWidgetState extends State<CouurseWidget> {
                               height: 4.h,
                             ),
                             Text(
-                              'ثلاث ساعات',
+                              widget.courseDataModel.hourNumber,
                               style: TextStyle(
                                 fontSize: 10,
                                 color: HexColor('#004AAD'),
@@ -104,4 +113,6 @@ class _CouurseWidgetState extends State<CouurseWidget> {
       ],
     );
   }
+
+
 }
